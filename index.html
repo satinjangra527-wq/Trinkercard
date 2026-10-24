@@ -1,0 +1,3912 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AK Electronics Lab Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Caveat&family=Comfortaa&family=Comic+Neue&family=Courier+Prime&family=EB+Garamond&family=Lexend&family=Lobster&family=Lora&family=Merriweather&family=Montserrat&family=Nunito&family=Oswald&family=Pacifico&family=Playfair+Display&family=Roboto&family=Spectral&family=Trebuch&family=Verdana&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Caveat:wght@600&family=Comfortaa:wght@600&family=Comic+Neue:wght@700&family=Courier+Prime&family=Dancing+Script:wght@600&family=EB+Garamond&family=Fira+Code&family=Great+Vibes&family=Inconsolata&family=Inter&family=JetBrains+Mono&family=Lato&family=Lexend:wght@500&family=Lobster&family=Lora&family=Merriweather&family=Montserrat&family=Nunito&family=Open+Sans&family=Oswald&family=Pacifico&family=Playfair+Display&family=Poppins&family=Roboto&family=Source+Code+Pro&family=Space+Mono&family=Spectral&display=swap" rel="stylesheet">
+
+<style>
+    
+            
+            :root {
+            --bg-color: #f4f7fe;
+            --card-bg: #ffffff;
+            --text-primary: #2b3674;
+            --accent-color: #4318ff;
+            --shadow-sm: 0px 18px 40px rgba(112, 144, 176, 0.12);
+            --shadow-hover: 0px 20px 40px rgba(67, 24, 255, 0.2);
+            --border-radius: 20px;
+            
+            --dynamic-font-size: 1.1rem;
+            --dynamic-font-family: 'Segoe UI', sans-serif;
+            --dynamic-font-style: normal;
+            --dynamic-card-bg: #ffffff;
+            --dynamic-border-color: transparent;
+            --dynamic-border-width: 2px;
+            --dynamic-border-style: solid;
+            --dynamic-outline-color: transparent;
+            --dynamic-outline-width: 0px;
+            --dynamic-outline-style: solid;
+            --dynamic-outline-offset: 0px;
+            --dynamic-card-width: 100%;
+            --dynamic-card-height: auto;
+            
+            --dynamic-card-padding: 24px;
+            --dynamic-grid-gap: 20px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 65px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-btn, .settings-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .menu-btn:hover, .settings-btn:hover {
+            background: #eef2ff;
+        }
+
+        .app-logo {
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Profile Avatar Image Circle */
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            transition: transform 0.2s;
+            display: inline-block;
+            background-color: #e2e8f0;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.08);
+        }
+
+        /* Workspace & Main Grid */
+        .main-workspace {
+            margin-top: 100px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1100px;
+            box-sizing: border-box;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--dynamic-grid-gap);
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--dynamic-card-bg);
+            border-radius: var(--border-radius);
+            padding: var(--dynamic-card-padding);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s, box-shadow 0.3s, border 0.2s, outline 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            box-sizing: border-box;
+            
+            border-width: var(--dynamic-border-width);
+            border-style: var(--dynamic-border-style);
+            border-color: var(--dynamic-border-color);
+            outline-width: var(--dynamic-outline-width);
+            outline-style: var(--dynamic-outline-style);
+            outline-color: var(--dynamic-outline-color);
+            outline-offset: var(--dynamic-outline-offset);
+            width: var(--dynamic-card-width);
+            height: var(--dynamic-card-height);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            color: var(--text-primary);
+            margin: 0;
+            font-size: var(--dynamic-font-size);
+            font-family: var(--dynamic-font-family);
+            font-style: var(--dynamic-font-style);
+        }
+
+        .card-1 .icon-box { background: #eef2ff; color: #4318ff; }
+        .card-2 .icon-box { background: #e6fffa; color: #04d1a0; }
+        .card-3 .icon-box { background: #fff5f5; color: #ff5630; }
+        .card-4 .icon-box { background: #fff8e6; color: #ffab00; }
+        .card-5 .icon-box { background: #f4f0ff; color: #8950fc; }
+        .card-6 .icon-box { background: #e8f5e9; color: #2e7d32; }
+
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .icon-box { width: 48px; height: 48px; font-size: 20px; }
+        }
+
+        /* Modal Overlays */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .modal-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab-btn {
+            flex: 1; padding: 10px;
+            background: none; border: none;
+            font-size: 1rem; font-weight: 600;
+            cursor: pointer; color: #888;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group input {
+            width: 100%; padding: 10px;
+            border: 1px solid #ddd; border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 15px 0;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .auth-divider::before, .auth-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .auth-divider span {
+            padding: 0 10px;
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: #ffffff;
+            color: #757575;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .google-btn:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Drawer Overlay */
+        .drawer-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 450;
+        }
+
+        .drawer-overlay.active {
+            display: block;
+        }
+
+        /* Left Profile Drawer */
+        .profile-drawer {
+            position: fixed;
+            top: 0; left: -320px;
+            width: 300px; height: 100%;
+            background: white;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+            transition: left 0.3s ease;
+            z-index: 500;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .profile-drawer.open { left: 0; }
+        .drawer-header { display: flex; align-items: center; justify-content: space-between; }
+        
+        .profile-info { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .avatar-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .avatar-container img { 
+            width: 90px; 
+            height: 90px; 
+            border-radius: 50%; 
+            margin-bottom: 10px; 
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            background-color: #e2e8f0;
+        }
+
+        .avatar-overlay-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 0px;
+            background: var(--accent-color);
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            border: 2px solid white;
+        }
+
+        /* Custom Project List Accordion Layout */
+        .project-section-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f8f9fe;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+            margin-top: 15px;
+        }
+
+        .project-section-title:hover {
+            background: #eef2ff;
+        }
+
+        .project-list-container {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+            padding-left: 5px;
+        }
+
+        .project-list-container.show {
+            display: flex;
+        }
+
+        .project-item {
+            padding: 10px 12px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .project-item:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: #f0f4ff;
+        }
+
+        /* Logout Button Style */
+        .logout-btn {
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #d9363e;
+        }
+
+        /* Right Settings Panel */
+        .settings-panel {
+            position: fixed;
+            top: 0; right: -360px;
+            width: 340px; height: 100%;
+            background: white;
+            box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 500;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-panel.open { right: 0; }
+
+        .accordion-item {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+
+        .accordion-header {
+            width: 100%; padding: 12px 0;
+            background: none; border: none;
+            text-align: left; font-weight: 700;
+            cursor: pointer; display: flex;
+            justify-content: space-between;
+            color: var(--text-primary);
+        }
+
+        .accordion-content { display: none; padding: 10px 0; }
+        .setting-row { margin-bottom: 12px; display: flex; flex-direction: column; gap: 5px; }
+        .setting-row label { font-size: 0.85rem; font-weight: 600; color: #555; }
+        .setting-row input[type="text"], .setting-row input[type="number"], .setting-row select {
+            padding: 8px; border: 1px solid #ccc; border-radius: 6px;
+        }
+
+        .color-trigger-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .color-preview-swatch {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .reset-settings-btn {
+            margin-top: 20px;
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .reset-settings-btn:hover { background: #d9363e; }
+        .close-btn { background: none; border: none; font-size: 20px; cursor: pointer; }
+
+        /* STUDIO MODAL STYLES */
+        #studioModalOverlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        #studioModalContent {
+            position: relative;
+            max-width: 1200px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 24px;
+        }
+
+        .studio-close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .studio-close-btn:hover { background: rgba(255, 255, 255, 0.4); }
+        
+        
+        
+    /*font family*/
+    /*font family*/
+    /*font family*/
+    /*font family*/
+    /*font family*/
+    
+    
+    
+        /* Custom Select Trigger Element */
+.custom-select-wrapper {
+    width: 100%;
+}
+
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    font-size: 1rem;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.custom-select-trigger::after {
+    content: "▼";
+    font-size: 0.75rem;
+    color: #666;
+}
+
+/* Modal Popup View - इमेज 2 की तरह पूरे ओवरले के लिए */
+.custom-options-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-options-modal.open {
+    display: flex;
+}
+
+/* पॉपअप बॉक्स की स्टाइलिंग */
+.custom-options-content {
+    background: #ffffff;
+    width: 90%;
+    max-width: 90%px;
+    max-height: 90%;
+    border-radius: 12px;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-size: 2.1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    color: #111;
+}
+
+.custom-option:last-child {
+    border-bottom: none;
+}
+
+/* इमेज 2 की तरह रेडियो बटन स्टाइल */
+.custom-option::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border: 2px solid #aaa;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.custom-option.selected::after {
+    border-color: #2563eb;
+    background-color: #2563eb;
+    box-shadow: inset 0 0 0 3px #ffffff;
+}
+
+
+
+
+
+
+/*font style*/
+/*font style*/
+/*font style*/
+/*font style*/
+/*font style*/
+
+
+
+
+
+/* Font Style Trigger Component */
+.style-select-wrapper {
+    width: 100%;
+}
+
+/* Modal for Font Style Options */
+.custom-style-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-style-modal.open {
+    display: flex;
+}
+
+.custom-style-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    color: #111;
+}
+
+.custom-style-option:last-child {
+    border-bottom: none;
+}
+
+/* Radio circle effect */
+.custom-style-option::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border: 2px solid #aaa;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.custom-style-option.selected::after {
+    border-color: #2563eb;
+    background-color: #2563eb;
+    box-shadow: inset 0 0 0 3px #ffffff;
+}
+
+
+
+
+
+    /*boder-style*/
+    /*boder-style*/
+    /*boder-style*/
+    /*boder-style*/
+    /*boder-style*/
+    /*boder-style*/
+    
+    
+    
+    /* बॉर्डर लाइन प्रीव्यू स्टाइल */
+.border-preview-line {
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 4px;
+    font-weight: 500;
+}
+
+/* 10 अलग-अलग बॉर्डर टाइप्स की स्टाइल */
+.line-solid  { border-bottom: 3px solid #333; }
+.line-dotted { border-bottom: 3px dotted #333; }
+.line-dashed { border-bottom: 3px dashed #333; }
+.line-double { border-bottom: 4px double #333; }
+.line-groove { border-bottom: 4px groove #333; }
+.line-ridge  { border-bottom: 4px ridge #333; }
+.line-outset { border-bottom: 4px outset #333; }
+.line-inset  { border-bottom: 4px inset #333; }
+.line-hidden { border-bottom: 3px hidden #333; opacity: 0.6; }
+.line-none   { border-bottom: none; opacity: 0.6; }
+
+.custom-border-option, 
+.custom-outline-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.custom-border-option::after,
+.custom-outline-option::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border: 2px solid #aaa;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.custom-border-option.selected::after,
+.custom-outline-option.selected::after {
+    border-color: #2563eb;
+    background-color: #2563eb;
+    box-shadow: inset 0 0 0 3px #fff;
+}
+    
+</style>
+
+</head>
+<body>
+    
+    <!-- Drawer Backdrop Overlay -->
+    <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
+
+    <!-- Hidden File Input for Phone Image Selection -->
+    <input type="file" id="profile-image-input" accept="image/*" style="display:none;" onchange="handleProfileImageUpload(event)">
+
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" onclick="toggleProfileDrawer()" title="Open Profile Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="app-logo"> 
+<!-- <i class="fa-solid fa-microchip"></i> --> 
+
+<img src="/trinkercard/1789471070538~2.jpg" alt="" height="50px" width="50px">
+
+</div>
+        </div>
+        <div class="nav-right">
+            <button class="settings-btn" onclick="toggleSettingsPanel()"><i class="fa-solid fa-gear"></i></button>
+            
+            <!-- Login / Sign Up Button -->
+            <button class="login-btn" id="auth-btn" onclick="openAuthModal()">Login / Sign Up</button>
+            
+            <!-- Top Nav User Avatar -->
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234318ff'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>" 
+                 alt="Avatar" class="user-avatar" id="user-avatar" onclick="toggleProfileDrawer()" title="Profile Panel">
+        </div>
+    </header>
+
+    <!-- Main Workspace Dashboard Grid -->
+    <main class="main-workspace">
+        <div class="dashboard-grid">
+            <a class="card card-1" id="option-create-circuit" onclick="navigateToModule('create-circuit')">
+                <div class="icon-box"><i class="fa-solid fa-microchip"></i></div>
+                <h3 class="card-title">Create new circuit</h3>
+            </a>
+            <a class="card card-2" id="option-for-beginner" onclick="navigateToModule('for-beginner')">
+                <div class="icon-box"><i class="fa-solid fa-diagram-project"></i></div>
+                <h3 class="card-title">For Beginner</h3>
+            </a>
+            <a class="card card-3" id="option-help" onclick="navigateToModule('help')">
+                <div class="icon-box"><i class="fa-solid fa-code"></i></div>
+                <h3 class="card-title">Help</h3>
+            </a>
+            <a class="card card-4" id="option-components-store" onclick="navigateToModule('components-store')">
+                <div class="icon-box"><i class="fa-solid fa-boxes-packing"></i></div>
+                <h3 class="card-title">Components Store</h3>
+            </a>
+            <a class="card card-5" id="option-example" onclick="navigateToModule('example')">
+                <div class="icon-box"><i class="fa-solid fa-project-diagram"></i></div>
+                <h3 class="card-title">Example</h3>
+            </a>
+            <a class="card card-6" id="option-my-projects" onclick="navigateToModule('my-projects')">
+                <div class="icon-box"><i class="fa-solid fa-folder-open"></i></div>
+                <h3 class="card-title">My Projects</h3>
+            </a>
+        </div>
+    </main>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-box">
+            <button class="close-btn" style="float:right;" onclick="closeAuthModal()">&times;</button>
+            <div class="modal-tabs">
+                <button class="tab-btn active" onclick="switchAuthTab('login')">Login</button>
+                <button class="tab-btn" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+            
+            <form id="login-form">
+                <div class="form-group"><input type="email" id="login-email" placeholder="Email" required></div>
+                <div class="form-group"><input type="password" id="login-password" placeholder="Password" required></div>
+                <button type="button" class="login-btn" style="width:100%;" onclick="simulateLogin('login')">Login</button>
+            </form>
+
+            <form id="signup-form" style="display:none;">
+                <div class="form-group"><input type="text" id="signup-name" placeholder="Full Name" required></div>
+                <div class="form-group"><input type="email" id="signup-email" placeholder="Email" required></div>
+                <div class="form-group"><input type="password" id="signup-password" placeholder="Password" required></div>
+                <button type="button" class="login-btn" style="width:100%;" onclick="simulateLogin('signup')">Sign Up</button>
+            </form>
+
+            <div class="auth-divider">
+                <span>या</span>
+            </div>
+
+            <button type="button" class="google-btn" onclick="loginWithGoogle()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" style="width: 18px; height: 18px;">
+                Continue with Google
+            </button>
+        </div>
+    </div>
+
+    <!-- Left Profile Drawer -->
+    <div class="profile-drawer" id="profile-drawer">
+        <div>
+            <div class="drawer-header">
+                <h4>Profile Panel</h4>
+                <button class="close-btn" onclick="toggleProfileDrawer()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="profile-info">
+                <div class="avatar-container" onclick="triggerImageUpload()" title="Click to change photo">
+                    <img id="drawer-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234318ff'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>" alt="Profile Avatar">
+                    <div class="avatar-overlay-badge"><i class="fa-solid fa-camera"></i></div>
+                </div>
+                <h3 id="drawer-user-name">Guest User</h3>
+                <p id="drawer-user-email" style="color:#666; font-size:0.85rem;">Not Logged In</p>
+            </div>
+            
+            <!-- My Projects List -->
+            <div>
+                <div class="project-section-title" onclick="toggleProjectList()">
+                    <span><i class="fa-solid fa-folder-open" style="color:var(--accent-color);"></i> &nbsp;My Projects</span>
+                    <i class="fa-solid fa-chevron-down" id="project-arrow"></i>
+                </div>
+                <div class="project-list-container" id="project-list">
+                    <div class="project-item" onclick="openProject('Smart Dustbin System')">
+                        <i class="fa-regular fa-file-code"></i> Smart Dustbin System
+                    </div>
+                    <div class="project-item" onclick="openProject('Height Measurement Tool')">
+                        <i class="fa-regular fa-file-code"></i> Height Measurement Tool
+                    </div>
+                    <div class="project-item" onclick="openProject('Driver Drowsiness Alert')">
+                        <i class="fa-regular fa-file-code"></i> Driver Drowsiness Alert
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="logout-btn" id="logout-btn" onclick="logoutUser()">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout / Sign Out
+        </button>
+    </div>
+
+    <!-- Right Settings Panel -->
+    <div class="settings-panel" id="settings-panel">
+        <div class="drawer-header">
+            <h4>Setting</h4>
+            <button class="close-btn" onclick="toggleSettingsPanel()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <!-- 1. Font Properties -->
+
+
+
+<div class="accordion-item">
+    <button class="accordion-header" onclick="toggleAccordion(this)">Font-Properties ∨</button>
+    <div class="accordion-content">
+        <div class="setting-row">
+            <label>Font Size (e.g., 18px, 1.2rem) :</label>
+            <input type="text" id="font-size-input" value="1.1rem" oninput="applyFontSettings()">
+        </div>
+        
+        
+        
+        <div class="setting-row">
+            <label>Font Family (65 Options) :</label>
+            
+            <!-- Hidden input Value स्टोर करने के लिए -->
+            <input type="hidden" id="font-style-select" value="Segoe UI">
+            
+            <div class="custom-select-wrapper" id="customFontDropdown">
+                <div class="custom-select-trigger" style="font-family: 'Segoe UI', sans-serif;">
+                    <span>Segoe UI</span>
+                </div>
+                
+                <!-- Fullscreen Modal View -->
+                <div class="custom-options-modal" id="fontModal">
+                    <div class="custom-options-content">
+                        <div class="custom-option" data-value="Amatic SC" style="font-family: 'Amatic SC', cursive;">Amatic SC</div>
+                        <div class="custom-option" data-value="Arial" style="font-family: Arial, sans-serif;">Arial</div>
+                        <div class="custom-option" data-value="Baskerville" style="font-family: Baskerville, serif;">Baskerville</div>
+                        <div class="custom-option" data-value="Bodoni" style="font-family: 'Bodoni MT', Didot, serif;">Bodoni</div>
+                        <div class="custom-option" data-value="Book Antiqua" style="font-family: 'Book Antiqua', Palatino, serif;">Book Antiqua</div>
+                        <div class="custom-option" data-value="Brush Script MT" style="font-family: 'Brush Script MT', cursive;">Brush Script MT</div>
+                        <div class="custom-option" data-value="Calibri" style="font-family: Calibri, sans-serif;">Calibri</div>
+                        <div class="custom-option" data-value="Cambria" style="font-family: Cambria, serif;">Cambria</div>
+                        <div class="custom-option" data-value="Caveat" style="font-family: 'Caveat', cursive;">Caveat</div>
+                        <div class="custom-option" data-value="Century Schoolbook" style="font-family: 'Century Schoolbook', serif;">Century Schoolbook</div>
+                        <div class="custom-option" data-value="Comic Neue" style="font-family: 'Comic Neue', cursive;">Comic Neue</div>
+                        <div class="custom-option" data-value="Comic Sans MS" style="font-family: 'Comic Sans MS', cursive;">Comic Sans MS</div>
+                        <div class="custom-option" data-value="Comfortaa" style="font-family: 'Comfortaa', cursive;">Comfortaa</div>
+                        <div class="custom-option" data-value="Consolas" style="font-family: Consolas, monospace;">Consolas</div>
+                        <div class="custom-option" data-value="Cooper Black" style="font-family: 'Cooper Black', serif;">Cooper Black</div>
+                        <div class="custom-option" data-value="Courier" style="font-family: Courier, monospace;">Courier</div>
+                        <div class="custom-option" data-value="Courier New" style="font-family: 'Courier New', monospace;">Courier New</div>
+                        <div class="custom-option" data-value="Courier Prime" style="font-family: 'Courier Prime', monospace;">Courier Prime</div>
+                        <div class="custom-option" data-value="Crimson Text" style="font-family: 'Crimson Text', serif;">Crimson Text</div>
+                        <div class="custom-option" data-value="Dancing Script" style="font-family: 'Dancing Script', cursive;">Dancing Script</div>
+                        <div class="custom-option" data-value="Didot" style="font-family: Didot, serif;">Didot</div>
+                        <div class="custom-option" data-value="EB Garamond" style="font-family: 'EB Garamond', serif;">EB Garamond</div>
+                        <div class="custom-option" data-value="Fira Code" style="font-family: 'Fira Code', monospace;">Fira Code</div>
+                        <div class="custom-option" data-value="Futura" style="font-family: Futura, sans-serif;">Futura</div>
+                        <div class="custom-option" data-value="Garamond" style="font-family: Garamond, serif;">Garamond</div>
+                        <div class="custom-option" data-value="Georgia" style="font-family: Georgia, serif;">Georgia</div>
+                        <div class="custom-option" data-value="Gill Sans" style="font-family: 'Gill Sans', sans-serif;">Gill Sans</div>
+                        <div class="custom-option" data-value="Great Vibes" style="font-family: 'Great Vibes', cursive;">Great Vibes</div>
+                        <div class="custom-option" data-value="Helvetica" style="font-family: Helvetica, sans-serif;">Helvetica</div>
+                        <div class="custom-option" data-value="Impact" style="font-family: Impact, fantasy;">Impact</div>
+                        <div class="custom-option" data-value="Inconsolata" style="font-family: 'Inconsolata', monospace;">Inconsolata</div>
+                        <div class="custom-option" data-value="Inter" style="font-family: 'Inter', sans-serif;">Inter</div>
+                        <div class="custom-option" data-value="JetBrains Mono" style="font-family: 'JetBrains Mono', monospace;">JetBrains Mono</div>
+                        <div class="custom-option" data-value="Lato" style="font-family: 'Lato', sans-serif;">Lato</div>
+                        <div class="custom-option" data-value="Lexend" style="font-family: 'Lexend', sans-serif;">Lexend</div>
+                        <div class="custom-option" data-value="Lobster" style="font-family: 'Lobster', cursive;">Lobster</div>
+                        <div class="custom-option" data-value="Lora" style="font-family: 'Lora', serif;">Lora</div>
+                        <div class="custom-option" data-value="Lucida Console" style="font-family: 'Lucida Console', monospace;">Lucida Console</div>
+                        <div class="custom-option" data-value="Lucida Handwriting" style="font-family: 'Lucida Handwriting', cursive;">Lucida Handwriting</div>
+                        <div class="custom-option" data-value="Merriweather" style="font-family: 'Merriweather', serif;">Merriweather</div>
+                        <option value="Minion Pro" style="font-family: 'Minion Pro', serif;">Minion Pro</option>
+                        <div class="custom-option" data-value="Monaco" style="font-family: Monaco, monospace;">Monaco</div>
+                        <div class="custom-option" data-value="Montserrat" style="font-family: 'Montserrat', sans-serif;">Montserrat</div>
+                        <div class="custom-option" data-value="Nunito" style="font-family: 'Nunito', sans-serif;">Nunito</div>
+                        <div class="custom-option" data-value="Open Sans" style="font-family: 'Open Sans', sans-serif;">Open Sans</div>
+                        <div class="custom-option" data-value="Oswald" style="font-family: 'Oswald', sans-serif;">Oswald</div>
+                        <div class="custom-option" data-value="Pacifico" style="font-family: 'Pacifico', cursive;">Pacifico</div>
+                        <div class="custom-option" data-value="Palatino" style="font-family: Palatino, serif;">Palatino</div>
+                        <div class="custom-option" data-value="Papyrus" style="font-family: Papyrus, fantasy;">Papyrus</div>
+                        <div class="custom-option" data-value="Playfair Display" style="font-family: 'Playfair Display', serif;">Playfair Display</div>
+                        <div class="custom-option" data-value="Poppins" style="font-family: 'Poppins', sans-serif;">Poppins</div>
+                        <div class="custom-option" data-value="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</div>
+                        <div class="custom-option" data-value="Rockwell" style="font-family: Rockwell, serif;">Rockwell</div>
+                        <div class="custom-option selected" data-value="Segoe UI" style="font-family: 'Segoe UI', sans-serif;">Segoe UI</div>
+                        <div class="custom-option" data-value="Source Code Pro" style="font-family: 'Source Code Pro', monospace;">Source Code Pro</div>
+                        <div class="custom-option" data-value="Space Mono" style="font-family: 'Space Mono', monospace;">Space Mono</div>
+                        <div class="custom-option" data-value="Spectral" style="font-family: 'Spectral', serif;">Spectral</div>
+                        <div class="custom-option" data-value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</div>
+                        <div class="custom-option" data-value="Times New Roman" style="font-family: 'Times New Roman', serif;">Times New Roman</div>
+                        <div class="custom-option" data-value="Trebuchet MS" style="font-family: 'Trebuchet MS', sans-serif;">Trebuchet MS</div>
+                        <div class="custom-option" data-value="Verdana" style="font-family: Verdana, sans-serif;">Verdana</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div class="setting-row">
+            <label>Font style :</label>
+            
+            <!-- Hidden input Value स्टोर करने के लिए -->
+            <input type="hidden" id="font-variant-select" value="normal">
+            
+            <div class="style-select-wrapper" id="customFontStyleDropdown">
+                <div class="custom-select-trigger" style="font-style: normal;">
+                    <span>Normal</span>
+                </div>
+                
+                <!-- Fullscreen Modal View for Font Style -->
+                <div class="custom-style-modal" id="styleModal">
+                    <div class="custom-options-content">
+                        <div class="custom-style-option selected" data-value="normal" style="font-style: normal;">Normal</div>
+                        <div class="custom-style-option" data-value="italic" style="font-style: italic;">Italic</div>
+                        <div class="custom-style-option" data-value="oblique" style="font-style: oblique;">Oblique</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+        <!-- 2. Background Properties -->
+        <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">Background-Properties ∨</button>
+            <div class="accordion-content">
+                <div class="setting-row">
+                    <label>Option Cards Background:</label>
+                    <button class="color-trigger-btn" onclick="openStudioPicker('card-bg-color')">
+                        <span class="color-preview-swatch" id="card-bg-swatch" style="background:#ffffff;"></span>
+                        <span id="card-bg-text">#ffffff</span>
+                    </button>
+                </div>
+                <div class="setting-row">
+                    <label>Main Page Background Color:</label>
+                    <button class="color-trigger-btn" onclick="openStudioPicker('page-bg-color')">
+                        <span class="color-preview-swatch" id="page-bg-swatch" style="background:#f4f7fe;"></span>
+                        <span id="page-bg-text">#f4f7fe</span>
+                    </button>
+                </div>
+                <div class="setting-row">
+                    <label>Background Image URL:</label>
+                    <input type="text" id="bg-img-url" placeholder="Paste Image Link" oninput="applyBackgroundSettings()">
+                </div>
+                <div class="setting-row">
+                    <label>Upload Image from Device:</label>
+                    <input type="file" accept="image/*" onchange="uploadBackgroundImage(event)">
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Border & Outline Properties -->
+
+
+<div class="accordion-item">
+    <button class="accordion-header" onclick="toggleAccordion(this)">Border & Outline Properties ∨</button>
+    <div class="accordion-content">
+        <!-- Border Color -->
+        <div class="setting-row">
+            <label>Border Color:</label>
+            <button class="color-trigger-btn" onclick="openStudioPicker('border-color')">
+                <span class="color-preview-swatch" id="border-swatch" style="background:#4318ff;"></span>
+                <span id="border-text">#4318ff</span>
+            </button>
+        </div>
+
+        <!-- Border Width -->
+        <div class="setting-row">
+            <label>Border Width (px):</label>
+            <input type="number" id="border-width" value="2" oninput="applyBorderSettings()">
+        </div>
+
+        <!-- Custom Border Style (10 Types) -->
+        <div class="setting-row">
+            <label>Border Style (10 Types):</label>
+            <input type="hidden" id="border-style" value="solid">
+            
+            <div class="custom-select-wrapper" id="customBorderStyleDropdown">
+                <div class="custom-select-trigger">
+                    <span class="border-preview-line line-solid">Solid</span>
+                </div>
+                
+                <div class="custom-style-modal" id="borderStyleModal">
+                    <div class="custom-options-content">
+                        <div class="custom-border-option selected" data-value="solid"><span class="border-preview-line line-solid">Solid</span></div>
+                        <div class="custom-border-option" data-value="dotted"><span class="border-preview-line line-dotted">Dotted</span></div>
+                        <div class="custom-border-option" data-value="dashed"><span class="border-preview-line line-dashed">Dashed</span></div>
+                        <div class="custom-border-option" data-value="double"><span class="border-preview-line line-double">Double</span></div>
+                        <div class="custom-border-option" data-value="groove"><span class="border-preview-line line-groove">Groove</span></div>
+                        <div class="custom-border-option" data-value="ridge"><span class="border-preview-line line-ridge">Ridge</span></div>
+                        <div class="custom-border-option" data-value="outset"><span class="border-preview-line line-outset">Outset</span></div>
+                        <div class="custom-border-option" data-value="inset"><span class="border-preview-line line-inset">Inset</span></div>
+                        <div class="custom-border-option" data-value="hidden"><span class="border-preview-line line-hidden">Hidden</span></div>
+                        <div class="custom-border-option" data-value="none"><span class="border-preview-line line-none">None</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outline Color -->
+        <div class="setting-row">
+            <label>Outline Color:</label>
+            <button class="color-trigger-btn" onclick="openStudioPicker('outline-color')">
+                <span class="color-preview-swatch" id="outline-swatch" style="background:#000000;"></span>
+                <span id="outline-text">#000000</span>
+            </button>
+        </div>
+
+        <!-- Outline Width -->
+        <div class="setting-row">
+            <label>Outline Width (px):</label>
+            <input type="number" id="outline-width" value="0" oninput="applyBorderSettings()">
+        </div>
+
+        <!-- Custom Outline Style (10 Types) -->
+        <div class="setting-row">
+            <label>Outline Style (10 Types):</label>
+            <input type="hidden" id="outline-style" value="solid">
+            
+            <div class="custom-select-wrapper" id="customOutlineStyleDropdown">
+                <div class="custom-select-trigger">
+                    <span class="border-preview-line line-solid">Solid</span>
+                </div>
+                
+                <div class="custom-style-modal" id="outlineStyleModal">
+                    <div class="custom-options-content">
+                        <div class="custom-outline-option selected" data-value="solid"><span class="border-preview-line line-solid">Solid</span></div>
+                        <div class="custom-outline-option" data-value="dotted"><span class="border-preview-line line-dotted">Dotted</span></div>
+                        <div class="custom-outline-option" data-value="dashed"><span class="border-preview-line line-dashed">Dashed</span></div>
+                        <div class="custom-outline-option" data-value="double"><span class="border-preview-line line-double">Double</span></div>
+                        <div class="custom-outline-option" data-value="groove"><span class="border-preview-line line-groove">Groove</span></div>
+                        <div class="custom-outline-option" data-value="ridge"><span class="border-preview-line line-ridge">Ridge</span></div>
+                        <div class="custom-outline-option" data-value="outset"><span class="border-preview-line line-outset">Outset</span></div>
+                        <div class="custom-outline-option" data-value="inset"><span class="border-preview-line line-inset">Inset</span></div>
+                        <div class="custom-outline-option" data-value="hidden"><span class="border-preview-line line-hidden">Hidden</span></div>
+                        <div class="custom-outline-option" data-value="none"><span class="border-preview-line line-none">None</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outline Offset -->
+        <div class="setting-row">
+            <label>Outline Offset / Space (px):</label>
+            <input type="number" id="outline-offset" value="3" oninput="applyBorderSettings()">
+        </div>
+    </div>
+</div>
+
+
+
+        <!-- 4. Structure & Spacing Properties -->
+        <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">Structure & Spacing ∨</button>
+            <div class="accordion-content">
+                <div class="setting-row">
+                    <label>Option Cards Width (e.g. 100%, 250px):</label>
+                    <input type="text" id="card-width-input" value="100%" oninput="applyStructureSettings()">
+                </div>
+                <div class="setting-row">
+                    <label>Option Cards Height (e.g. auto, 150px):</label>
+                    <input type="text" id="card-height-input" value="auto" oninput="applyStructureSettings()">
+                </div>
+                <div class="setting-row">
+                    <label>Card Internal Padding (px):</label>
+                    <input type="number" id="card-padding-input" value="24" min="0" max="100" oninput="applyStructureSettings()">
+                </div>
+                <div class="setting-row">
+                    <label>Grid Gap (px):</label>
+                    <input type="number" id="grid-gap-input" value="20" min="0" max="100" oninput="applyStructureSettings()">
+                </div>
+            </div>
+        </div>
+
+        <button class="reset-settings-btn" onclick="resetAllSettings()">
+            <i class="fa-solid fa-rotate-left"></i> Reset Settings
+        </button>
+    </div>
+
+
+
+    
+  <div id="studioModalOverlay">
+  <div id="studioModalContent">
+    <button class="studio-close-btn" onclick="closeStudioPicker()">&times;</button>
+    
+    <!-- यहाँ अंदर Code 1 वाला (.color-studio) कंपोनेंट आएगा -->
+    
+    <!-- ==================== ULTRA COLOR STUDIO COMPONENT START ==================== -->
+    <svg style="display:none;">
+      <defs>
+        <filter id="protanopia-filter">
+          <feColorMatrix type="matrix" values="0.56667, 0.43333, 0.00000, 0, 0  0.55833, 0.44167, 0.00000, 0, 0  0.00000, 0.24167, 0.75833, 0, 0  0, 0, 0, 1, 0" />
+        </filter>
+        <filter id="deuteranopia-filter">
+          <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0  0.7, 0.3, 0, 0, 0  0, 0.3, 0.7, 0, 0  0, 0, 0, 1, 0" />
+        </filter>
+        <filter id="tritanopia-filter">
+          <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0  0, 0.43333, 0.56667, 0, 0  0, 0.475, 0.525, 0, 0  0, 0, 0, 1, 0" />
+        </filter>
+      </defs>
+    </svg>
+    
+    <div class="color-studio-pro" id="studioRoot">
+      
+      <!-- LEFT PANEL: CANVAS & PICKER CONTROLS -->
+      <div class="panel picker-panel">
+        <div class="panel-header">
+          <div class="brand">
+            <span class="studio-badge">🚀 ENTERPRISE v5.2</span>
+            <h2><a href="/trinkercard/html files/color-detail.html" style="color: white; text-decoration: none; font-size: 24px;">🎨 Color Studio Max</a></h2>
+          </div>
+          <div class="header-actions">
+            <button type="button" class="btn btn-sm" id="speechBtn" title="Speak Color Name">🔊 Read</button>
+            <button type="button" class="btn btn-sm btn-accent" id="eyedropperBtn">🧪 EyeDropper</button>
+          </div>
+        </div>
+        
+        <!-- 2D Color Spectrum Canvas -->
+        <div class="canvas-container" id="canvasBox">
+          <canvas id="satValCanvas"></canvas>
+          <div class="picker-cursor" id="pickerCursor"></div>
+        </div>
+        
+        <!-- Hue & Alpha Sliders -->
+        <div class="slider-group">
+          <div class="slider-row">
+            <label>HUE <span id="hueVal">240°</span></label>
+            <input type="range" id="hueSlider" min="0" max="360" value="240">
+          </div>
+          <div class="slider-row">
+            <label>ALPHA / OPACITY <span id="alphaVal">100%</span></label>
+            <input type="range" id="alphaSlider" min="0" max="100" value="100">
+          </div>
+        </div>
+        
+        <!-- Fine Tuning Control Matrix -->
+        <div class="fine-tuning-block">
+          <span class="section-title">Color Fine-Tuner</span>
+          <div class="tuning-grid">
+            <div class="slider-row">
+              <label>TEMP <span id="tempVal">0</span></label>
+              <input type="range" id="tempSlider" min="-50" max="50" value="0">
+            </div>
+            <div class="slider-row">
+              <label>TINT <span id="tintVal">0</span></label>
+              <input type="range" id="tintSlider" min="-50" max="50" value="0">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Color Code Inputs Grid -->
+        <div class="color-inputs-grid">
+          <div class="input-box span-full">
+            <span>Smart Color Identifier / Name Input</span>
+            <div class="input-with-badge">
+              <!-- Fixed readonly removal for manual typing -->
+              <input type="text" id="colorNameInput" placeholder="Enter color name (e.g. Red, Blue, Gold)">
+              <span class="color-match-tag" id="colorMatchTag">Live Match</span>
+            </div>
+          </div>
+          <div class="input-box">
+            <span>HEX</span>
+            <input type="text" id="hexInput" value="#6366F1">
+          </div>
+          <div class="input-box">
+            <span>RGB</span>
+            <input type="text" id="rgbInput" value="99, 102, 241">
+          </div>
+          <div class="input-box">
+            <span>HSL</span>
+            <input type="text" id="hslInput" value="239°, 84%, 67%">
+          </div>
+          <div class="input-box">
+            <span>CMYK</span>
+            <input type="text" id="cmykInput" value="59%, 58%, 0%, 5%">
+          </div>
+          <div class="input-box">
+            <span>HSV</span>
+            <input type="text" id="hsvInput" value="240°, 59%, 95%">
+          </div>
+          <div class="input-box">
+            <span>OKLCH</span>
+            <input type="text" id="oklchInput" value="0.62 0.19 259">
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-btns">
+          <button type="button" class="btn btn-apply" id="applyBtn">🚀 Apply Page</button>
+          <button type="button" class="btn" id="randomBtn">🎲 Random</button>
+          <button type="button" class="btn" id="copyCssBtn">📋 Quick Copy</button>
+          <button type="button" class="btn btn-accent" id="savePaletteBtn">⭐ Save</button>
+        </div>
+        
+        <!-- Swatches Section -->
+        <div class="swatches-section">
+          <div class="section-title-bar">
+            <span>Recent History</span>
+            <button type="button" class="text-btn" id="clearHistoryBtn">Clear</button>
+          </div>
+          <div class="swatches-grid" id="historyGrid"></div>
+        </div>
+        
+        <div class="swatches-section">
+          <div class="section-title-bar">
+            <span>Saved Favorites</span>
+            <button type="button" class="text-btn" id="clearFavBtn">Clear All</button>
+          </div>
+          <div class="swatches-grid" id="favGrid"></div>
+        </div>
+      </div>
+      
+      <!-- CENTER/RIGHT PANEL: MOCKUP, SHADES, HARMONIES & ACCESSIBILITY -->
+      <div class="panel preview-panel">
+        
+        <!-- Target Switcher Navigation -->
+        <div class="target-bar">
+          <span class="target-label">Edit Target:</span>
+          <div class="target-pills">
+            <button class="pill active" data-target="bg">Card BG</button>
+            <button class="pill" data-target="primary">Primary Accent</button>
+            <button class="pill" data-target="text">Text</button>
+            <button class="pill" data-target="border">Borders</button>
+          </div>
+        </div>
+        
+        <!-- Realtime Interactive Mockup Canvas -->
+        <div class="mockup-card" id="mockupCard">
+          <div class="mock-nav" id="mockNav">
+            <div class="mock-logo" id="mockLogo">ProEngine Enterprise</div>
+            <div class="mock-menu">
+              <span>Overview</span>
+              <span>Features</span>
+              <span>Pricing</span>
+            </div>
+          </div>
+          
+          <div class="mock-hero">
+            <h1 id="mockTitle">Designing With Precision</h1>
+            <p id="mockDesc">Dynamic theme building engine featuring WCAG compliance, colorblindness modes, and multi-format CSS export.</p>
+            <div class="mock-btn-group">
+              <button type="button" class="mock-btn primary" id="mockBtnPrimary">Primary Action</button>
+              <button type="button" class="mock-btn secondary" id="mockBtnSecondary">Secondary</button>
+            </div>
+          </div>
+          
+          <!-- Live Contrast & Accessibility Matrix -->
+          <div class="accessibility-matrix">
+            <div class="contrast-score">
+              <span class="score-title">WCAG 2.1 Ratio</span>
+              <span class="score-val" id="contrastRatioVal">4.5:1</span>
+            </div>
+            <div class="wcag-tags">
+              <span class="wcag-badge" id="wcagAANormal">AA Normal: PASS</span>
+              <span class="wcag-badge" id="wcagAALarge">AA Large: PASS</span>
+              <span class="wcag-badge" id="wcagAAA">AAA: FAIL</span>
+            </div>
+          </div>
+        </div>
+        
+<!-- ==================== GEMINI AI VISION & COLOR MAPPER SECTION ==================== -->
+<div class="image-extractor-box" style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color, #334155); margin-top: 15px;">
+  <div class="section-title-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+    <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-main, #fff);">✨ Open AI Vision And Color Maper</span>
+    <div style="display: flex; gap: 8px;">
+      <label for="cameraCaptureInput" class="btn btn-sm btn-accent upload-btn-label" style="cursor: pointer;">📷  Click Image</label>
+      <input type="file" id="cameraCaptureInput" accept="image/*" capture="environment" style="display:none;">
+      
+      <label for="imageUploadInput" class="btn btn-sm upload-btn-label" style="cursor: pointer;">📁 Select Image</label>
+      <input type="file" id="imageUploadInput" accept="image/*" style="display:none;">
+    </div>
+  </div>
+  
+  <!-- एक्सट्रैक्टेड रंगों के पैलेट दिखाने की जगह -->
+  <div class="extracted-palette" id="extractedPalette" style="display: flex; gap: 8px; min-height: 40px; align-items: center; flex-wrap: wrap; margin-top: 8px;">
+    <span class="placeholder-text" style="font-size: 0.8rem; color: var(--text-sub, #9ca3af);">🎨 फोटो अपलोड करें, सभी रंग यहाँ दिखाई देंगे</span>
+  </div>
+
+  <!-- रंग आने के बाद दिखने वाला सर्च/चैट ट्रिगर बटन -->
+  <div id="searchTriggerContainer" style="margin-top: 10px; display: none; text-align: right;">
+    <button type="button" id="openSearchModalBtn" class="btn btn-sm btn-accent" style="font-size: 0.8rem; padding: 6px 14px; background: #10b981; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
+      🤖 Gemini से कुछ भी पूछें (Ask Gemini AI)
+    </button>
+  </div>
+
+  <!-- रंग विवरण दिखाने की जगह -->
+  <div id="colorRegionsDetail" style="margin-top: 8px; font-size: 0.8rem; line-height: 1.4; color: var(--text-sub, #9ca3af); max-height: 100px; overflow-y: auto;"></div>
+</div>
+
+<!-- ==================== GEMINI AI SEARCH / CHAT MODAL ==================== -->
+<div id="colorSearchModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center; padding: 15px;">
+  <div style="background: var(--bg-card, #0f172a); border: 1px solid var(--border-color, #334155); border-radius: 12px; width: 100%; max-width: 440px; padding: 18px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h3 style="margin: 0; font-size: 1rem; color: var(--text-main, #fff);">🤖 Gemini AI से पूछें</h3>
+      <button type="button" id="closeSearchModalBtn" style="background: transparent; border: none; color: var(--text-main, #fff); font-size: 1.2rem; cursor: pointer;">✕</button>
+    </div>
+    
+    <div style="margin-bottom: 10px; display: flex; gap: 6px;">
+      <input type="text" id="colorSearchInput" placeholder="जैसे: 'इस फोटो में मुख्य रंग कौन सा है?'..." style="width: 100%; padding: 9px 12px; font-size: 0.85rem; border-radius: 6px; border: 1px solid var(--border-color, #334155); background: var(--bg-input, #1e293b); color: var(--text-main, #fff); outline: none;">
+      <button type="button" id="askGeminiBtn" class="btn btn-sm btn-accent" style="padding: 0 14px; background: var(--accent-color, #6366f1); color: #fff; border: none; border-radius: 6px; cursor: pointer;">पूछें</button>
+    </div>
+    <div style="font-size: 0.75rem; color: var(--text-sub, #9ca3af); margin-bottom: 12px;">
+      💡 फोटो और उसके रंगों के बारे में हिंदी में कुछ भी टाइप करें।
+    </div>
+
+    <!-- उत्तर दिखाने का बॉक्स -->
+    <div id="modalSearchResults" style="max-height: 220px; overflow-y: auto; font-size: 0.82rem; color: var(--text-main, #fff); background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color, #334155);">
+      <em style="color: var(--text-sub, #9ca3af);">यहाँ Gemini AI का उत्तर दिखाई देगा...</em>
+    </div>
+  </div>
+</div>
+
+
+
+        
+        <!-- REDESIGNED LIVE CSS GRADIENT GENERATOR -->
+        <div class="section-block gradient-generator-box">
+          <div class="section-title-bar">
+            <span>🌈 Live CSS Gradient Generator</span>
+          </div>
+          
+          <div class="gradient-controls">
+            <div class="gradient-type-selector">
+              <button class="pill active" id="btnLinearGrad">Linear Gradient</button>
+              <button class="pill" id="btnRadialGrad">Radial Gradient</button>
+            </div>
+            <div class="slider-row angle-row" id="angleControlRow">
+              <label>ANGLE <span id="gradAngleVal">90°</span></label>
+              <input type="range" id="gradAngleSlider" min="0" max="360" value="90">
+            </div>
+          </div>
+          
+          <div class="gradient-colors-pickers">
+            <div class="grad-color-pick">
+              <span>Color 1:</span>
+              <input type="color" id="gradColor1" value="#6366F1">
+            </div>
+            <div class="grad-color-pick">
+              <span>Color 2:</span>
+              <input type="color" id="gradColor2" value="#10B981">
+            </div>
+          </div>
+          
+          <div class="gradient-preview-box" id="gradientPreview"></div>
+          
+          <!-- Copy Gradient Code Bottom Bar -->
+          <div class="gradient-output-footer">
+            <textarea id="gradientCodeOutput" class="code-area gradient-code-area" readonly rows="2"></textarea>
+            <button type="button" class="btn btn-accent copy-grad-btn" id="copyGradientBtn">📋 Copy CSS</button>
+          </div>
+        </div>
+        
+        <!-- Dynamic Shades & Tints Generator -->
+        <div class="section-block">
+          <span class="section-title">Shades & Tints (Lightness Spectrum)</span>
+          <div class="shades-bar" id="shadesContainer"></div>
+        </div>
+        
+        <!-- Vision Simulator -->
+        <div class="section-block">
+          <div class="section-title-bar">
+            <span>Colorblind Vision Simulation</span>
+            <select id="visionSimulatorSelect" class="sim-select">
+              <option value="normal">Normal Vision (100%)</option>
+              <option value="protanopia">Protanopia (Red-Blind)</option>
+              <option value="deuteranopia">Deuteranopia (Green-Blind)</option>
+              <option value="tritanopia">Tritanopia (Blue-Blind)</option>
+              <option value="achromatopsia">Achromatopsia (Monochromacy)</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Multi-Harmony Palette Switcher -->
+        <div class="section-block">
+          <div class="section-title-bar">
+            <span>Color Harmonies</span>
+            <div class="harmony-tabs" id="harmonyTabs">
+              <button class="tab-btn active" data-type="analogous">Analogous</button>
+              <button class="tab-btn" data-type="complementary">Complementary</button>
+              <button class="tab-btn" data-type="triadic">Triadic</button>
+              <button class="tab-btn" data-type="monochromatic">Mono</button>
+            </div>
+          </div>
+          <div class="palette-grid" id="harmonyGrid"></div>
+        </div>
+        
+        <!-- Multi-Format Code Export Engine -->
+        <div class="section-block">
+          <div class="section-title-bar">
+            <span>Code Export Engine</span>
+            <div class="export-tabs" id="exportTabs">
+              <button class="tab-btn active" data-format="css">CSS Var</button>
+              <button class="tab-btn" data-format="tailwind">Tailwind v4</button>
+              <button class="tab-btn" data-format="scss">SCSS</button>
+              <button class="tab-btn" data-format="tokens">Tokens (JSON)</button>
+              <button class="tab-btn" data-format="android">Android XML</button>
+              <button class="tab-btn" data-format="swift">SwiftUI</button>
+            </div>
+          </div>
+          <textarea id="exportCodeArea" readonly class="code-area" rows="5"></textarea>
+        </div>
+        
+      </div>
+    </div>    
+    
+    
+  </div>
+</div>
+
+
+   
+    <!-- Dynamic Component Styling -->
+
+<script>
+    (function injectStudioStyles() {
+    const css = `
+      :root {
+        --studio-bg: #090d16;
+        --panel-bg: rgba(17, 24, 39, 0.85);
+        --accent-color: #6366f1;
+        --border-color: rgba(255, 255, 255, 0.12);
+        --text-main: #f3f4f6;
+        --text-sub: #9ca3af;
+      }
+
+      .color-studio-pro {
+        display: grid;
+        grid-template-columns: 410px 1fr;
+        gap: 20px;
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        background: var(--studio-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        color: var(--text-main);
+        box-sizing: border-box;
+      }
+
+      .color-studio-pro * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      .panel {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--panel-bg);
+        backdrop-filter: blur(16px);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 18px;
+      }
+
+      .panel-header { display: flex; justify-content: space-between; align-items: center; }
+      .brand { display: flex; align-items: center; gap: 8px; }
+      .brand h2 { font-size: 1.1rem; font-weight: 700; }
+
+      .studio-badge {
+        background: var(--accent-color);
+        font-size: 1.1rem;
+        font-weight: 800;
+        padding: 6px 12px;
+        border-radius: 15px;
+        color: #fff;
+      }
+
+      .header-actions { display: flex; gap: 6px; }
+
+      .canvas-container {
+        position: relative;
+        width: 100%;
+        height: 190px;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: crosshair;
+        touch-action: none;
+      }
+
+      canvas#satValCanvas { width: 100%; height: 100%; display: block; }
+
+      .picker-cursor {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        box-shadow: 0 0 6px rgba(0,0,0,0.8);
+      }
+
+      .slider-group, .tuning-grid { display: flex; flex-direction: column; gap: 8px; }
+      .tuning-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .fine-tuning-block { background: rgba(0,0,0,0.25); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); }
+
+      .slider-row label, .section-title {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--text-sub);
+        margin-bottom: 2px;
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 8px;
+        border-radius: 4px;
+        outline: none;
+        background: rgba(255,255,255,0.15);
+        cursor: pointer;
+      }
+
+      #hueSlider { background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); }
+      #alphaSlider {
+        background: linear-gradient(to right, transparent, var(--accent-color)),
+                    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="4" height="4" fill="%23333"/><rect x="4" width="4" height="4" fill="%23666"/><rect y="4" width="4" height="4" fill="%23666"/><rect x="4" y="4" width="4" height="4" fill="%23333"/></svg>');
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid #000;
+      }
+
+      .color-inputs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .span-full { grid-column: span 3; }
+
+      .input-box {
+        background: rgba(0,0,0,0.3);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 6px 8px;
+      }
+
+      .input-box span {
+        display: block;
+        font-size: 0.6rem;
+        color: var(--text-sub);
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+
+      .input-box input {
+        width: 100%;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 600;
+        outline: none;
+      }
+
+      .input-with-badge { display: flex; justify-content: space-between; align-items: center; }
+
+      .color-match-tag {
+        font-size: 0.65rem;
+        background: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        padding: 2px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+
+      .action-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+
+      .btn {
+        flex: 1;
+        min-width: 70px;
+        padding: 8px 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+
+      .btn:hover { background: rgba(255,255,255,0.12); }
+      .btn-sm { padding: 4px 8px; font-size: 0.7rem; }
+      .btn-accent { background: var(--accent-color); border-color: var(--accent-color); }
+      .btn-apply { background: #10b981; border-color: #059669; }
+
+      .section-title-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.75rem;
+        color: var(--text-sub);
+        margin-bottom: 6px;
+      }
+
+      .swatches-grid { display: flex; gap: 6px; flex-wrap: wrap; min-height: 28px; }
+
+      .swatch {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.2);
+        cursor: pointer;
+        transition: transform 0.15s;
+      }
+
+      .swatch:hover { transform: scale(1.15); }
+
+      .target-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0,0,0,0.2);
+        padding: 6px 10px;
+        border-radius: 10px;
+      }
+
+      .target-label { font-size: 0.75rem; color: var(--text-sub); }
+      .target-pills { display: flex; gap: 6px; }
+
+      .pill {
+        background: none;
+        border: 1px solid var(--border-color);
+        color: var(--text-sub);
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .pill.active { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+
+      .mockup-card {
+        background: #111827;
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        transition: all 0.3s;
+      }
+
+      .mock-nav { display: flex; justify-content: space-between; align-items: center; }
+      .mock-logo { font-weight: 800; font-size: 1rem; }
+      .mock-menu { display: flex; gap: 12px; font-size: 0.75rem; opacity: 0.8; }
+
+      .mock-hero h1 { font-size: 1.3rem; margin-bottom: 4px; }
+      .mock-hero p { font-size: 0.8rem; opacity: 0.8; margin-bottom: 12px; max-width: 480px; }
+
+      .mock-btn-group { display: flex; gap: 10px; }
+      .mock-btn {
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 700;
+        font-size: 0.75rem;
+        cursor: pointer;
+      }
+
+      .accessibility-matrix {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0,0,0,0.4);
+        padding: 8px 12px;
+        border-radius: 10px;
+      }
+
+      .contrast-score { display: flex; flex-direction: column; }
+      .score-title { font-size: 0.65rem; color: var(--text-sub); }
+      .score-val { font-size: 0.95rem; font-weight: 800; }
+
+      .wcag-tags { display: flex; gap: 6px; }
+      .wcag-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+
+      .pass { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+      .fail { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+      .shades-bar { display: flex; height: 32px; border-radius: 8px; overflow: hidden; }
+      .shade-box { flex: 1; cursor: pointer; transition: opacity 0.2s; }
+      .shade-box:hover { opacity: 0.8; }
+
+      .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; height: 50px; }
+      .palette-box {
+        border-radius: 8px;
+        padding: 4px;
+        display: flex;
+        align-items: flex-end;
+        font-size: 0.65rem;
+        font-weight: 700;
+        cursor: pointer;
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      }
+
+      .sim-select {
+        background: rgba(0,0,0,0.4);
+        border: 1px solid var(--border-color);
+        color: #fff;
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+      }
+
+      .tab-btn {
+        background: none;
+        border: none;
+        color: var(--text-sub);
+        font-size: 0.7rem;
+        cursor: pointer;
+        padding: 2px 6px;
+      }
+      .tab-btn.active { color: var(--accent-color); font-weight: 700; }
+
+      .code-area {
+        width: 100%;
+        background: rgba(0,0,0,0.5);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: #00ffcc;
+        font-family: monospace;
+        font-size: 0.75rem;
+        padding: 8px;
+        resize: none;
+      }
+
+      .text-btn { background: none; border: none; color: var(--accent-color); font-size: 0.7rem; cursor: pointer; }
+      .image-extractor-box { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); }
+      .extracted-palette { display: flex; gap: 8px; min-height: 32px; align-items: center; margin-top: 6px; }
+      .placeholder-text { font-size: 0.7rem; color: var(--text-sub); }
+      .upload-btn-label { display: inline-block; cursor: pointer; }
+
+      .gradient-generator-box {
+        background: rgba(0,0,0,0.25);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .gradient-controls { display: flex; justify-content: space-between; align-items: center; }
+      .gradient-type-selector { display: flex; gap: 6px; }
+      .angle-row { width: 120px; }
+      .gradient-colors-pickers { display: flex; gap: 14px; align-items: center; font-size: 0.75rem; color: var(--text-sub); }
+      .grad-color-pick { display: flex; align-items: center; gap: 6px; }
+      .grad-color-pick input[type="color"] { border: none; width: 28px; height: 28px; border-radius: 6px; background: none; cursor: pointer; }
+      .gradient-preview-box { width: 100%; height: 50px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+
+      .gradient-output-footer {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .gradient-code-area {
+        flex: 1;
+        height: 38px;
+        rows: 1;
+        line-height: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .copy-grad-btn {
+        height: 38px;
+        white-space: nowrap;
+        padding: 0 14px;
+      }
+
+      .sim-protanopia { filter: url(#protanopia-filter); }
+      .sim-deuteranopia { filter: url(#deuteranopia-filter); }
+      .sim-tritanopia { filter: url(#tritanopia-filter); }
+      .sim-achromatopsia { filter: grayscale(100%); }
+
+      @media (max-width: 960px) {
+        .color-studio-pro { grid-template-columns: 1fr; }
+      }
+    `;
+    const styleEl = document.createElement('style');
+    styleEl.textContent = css;
+    document.head.appendChild(styleEl);
+  })();
+
+  // ADVANCED COLOR ENGINE ENTERPRISE v5.2 (UPDATED WITH ADVANCED MULTI-WORD COLOR PARSER)
+  (function initStudioEngineEnterprise() {
+    let state = {
+      h: 240, s: 0.84, v: 0.94, a: 1.0,
+      temp: 0, tint: 0,
+      activeTarget: 'bg',
+      activeHarmony: 'analogous',
+      activeExport: 'css',
+      gradType: 'linear',
+      gradAngle: 90,
+      gradColor1: '#6366F1',
+      gradColor2: '#10B981',
+      isTypingName: false,
+      theme: {
+        bg: 'rgba(99, 102, 241, 1)',
+        primary: '#ffffff',
+        text: '#f8fafc',
+        border: 'rgba(255,255,255,0.15)'
+      },
+      history: ['#6366F1', '#EC4899', '#10B981', '#F59E0B', '#3B82F6'],
+      favorites: JSON.parse(localStorage.getItem('studio_fav_colors_v5') || '["#6366F1", "#10B981"]')
+    };
+
+    const canvas = document.getElementById('satValCanvas');
+    const ctx = canvas.getContext('2d');
+    const cursor = document.getElementById('pickerCursor');
+    const canvasBox = document.getElementById('canvasBox');
+
+    // Helper Canvas for converting named colors to RGB
+    const dummyCtx = document.createElement('canvas').getContext('2d');
+
+    // Extended color map for multi-word, hyphenated or multi-letter colors
+    const customColorMap = {
+      "redish-brown": "#A52A2A",
+      "reddish-brown": "#A52A2A",
+      "light-pink": "#FFB6C1",
+      "dark-red": "#8B0000",
+      "dark-blue": "#00008B",
+      "sky-blue": "#87CEEB",
+      "midnight-blue": "#191970",
+      "golden-rod": "#DAA520",
+      "yellow-green": "#9ACD32",
+      "olive-drab": "#6B8E23",
+      "slate-gray": "#708090",
+      "slate-grey": "#708090",
+      "light-blue": "#ADD8E6",
+      "dark-green": "#006400",
+      "light-green": "#90EE90",
+      "hot-pink": "#FF69B4",
+      "deep-pink": "#FF1493"
+    };
+
+    function nameToHex(name) {
+      if (!name) return null;
+      let cleanName = name.trim().toLowerCase();
+      cleanName = cleanName.replace(/\s*\(.*\)/, '').trim();
+
+      if (customColorMap[cleanName]) {
+        return customColorMap[cleanName];
+      }
+
+      let normalized = cleanName.replace(/[\s_]+/g, '-');
+      if (customColorMap[normalized]) {
+        return customColorMap[normalized];
+      }
+
+      dummyCtx.fillStyle = '#000000';
+      dummyCtx.fillStyle = cleanName;
+      let computed = dummyCtx.fillStyle;
+      if (computed !== '#000000' || cleanName === 'black') {
+        return computed;
+      }
+
+      let condensed = cleanName.replace(/[-\s]/g, '');
+      dummyCtx.fillStyle = condensed;
+      computed = dummyCtx.fillStyle;
+      if (computed !== '#000000' || condensed === 'black') {
+        return computed;
+      }
+
+      return null;
+    }
+
+    function resizeCanvas() {
+      canvas.width = canvasBox.clientWidth;
+      canvas.height = canvasBox.clientHeight;
+      renderCanvas();
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    function renderCanvas() {
+      const w = canvas.width, h = canvas.height;
+      ctx.fillStyle = `hsl(${state.h}, 100%, 50%)`;
+      ctx.fillRect(0, 0, w, h);
+
+      let satGrad = ctx.createLinearGradient(0, 0, w, 0);
+      satGrad.addColorStop(0, '#fff');
+      satGrad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = satGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      let valGrad = ctx.createLinearGradient(0, 0, 0, h);
+      valGrad.addColorStop(0, 'rgba(0,0,0,0)');
+      valGrad.addColorStop(1, '#000');
+      ctx.fillStyle = valGrad;
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    let fetchTimer = null;
+    function fetchColorName(hex) {
+      if (state.isTypingName) return; 
+      const cleanHex = hex.replace('#', '');
+      document.getElementById('colorNameInput').value = 'Fetching name...';
+      clearTimeout(fetchTimer);
+      fetchTimer = setTimeout(() => {
+        fetch(`https://api.color.pizza/v1/${cleanHex}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.colors && data.colors.length > 0 && !state.isTypingName) {
+              const name = data.colors[0].name;
+              document.getElementById('colorNameInput').value = `${name} (${hex})`;
+            }
+          })
+          .catch(() => {
+            if (!state.isTypingName) {
+              document.getElementById('colorNameInput').value = `Custom Color (${hex})`;
+            }
+          });
+      }, 300);
+    }
+
+    function hsvToRgb(h, s, v) {
+      let r, g, b, i = Math.floor(h / 60) % 6, f = h / 60 - Math.floor(h / 60);
+      let p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s);
+      switch(i) {
+        case 0: r=v; g=t; b=p; break;
+        case 1: r=q; g=v; b=p; break;
+        case 2: r=p; g=v; b=t; break;
+        case 3: r=p; g=q; b=v; break;
+        case 4: r=t; g=p; b=v; break;
+        case 5: r=v; g=p; b=q; break;
+      }
+
+      let red = r * 255 + state.temp;
+      let green = g * 255 + state.tint;
+      let blue = b * 255 - state.temp;
+
+      return [
+        Math.max(0, Math.min(255, Math.round(red))),
+        Math.max(0, Math.min(255, Math.round(green))),
+        Math.max(0, Math.min(255, Math.round(blue)))
+      ];
+    }
+
+    function rgbToHex(r, g, b) {
+      return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1).toUpperCase();
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      let max = Math.max(r, g, b), min = Math.min(r, g, b), h, s, l = (max + min) / 2;
+      if(max === min) { h = s = 0; } else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+    }
+
+    function rgbToCmyk(r, g, b) {
+      let c = 1 - (r / 255), m = 1 - (g / 255), y = 1 - (b / 255);
+      let k = Math.min(c, Math.min(m, y));
+      if (k === 1) return [0, 0, 0, 100];
+      return [
+        Math.round(((c - k) / (1 - k)) * 100),
+        Math.round(((m - k) / (1 - k)) * 100),
+        Math.round(((y - k) / (1 - k)) * 100),
+        Math.round(k * 100)
+      ];
+    }
+
+    function rgbToOklch(r, g, b) {
+      let l = (0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b) / 255;
+      let c = (0.2119034982 * r - 0.1754117604 * g - 0.0364917378 * b) / 255;
+      let h = Math.atan2(0.0883024619 * r - 0.2559733475 * g + 0.1676708856 * b, r - g);
+      h = h * (180 / Math.PI);
+      if (h < 0) h += 360;
+      return [(l).toFixed(2), (Math.abs(c)).toFixed(2), Math.round(h)];
+    }
+
+    const colorNameInput = document.getElementById('colorNameInput');
+    const colorMatchTag = document.getElementById('colorMatchTag');
+    
+    colorNameInput.addEventListener('focus', () => { state.isTypingName = true; });
+    colorNameInput.addEventListener('blur', () => { 
+      state.isTypingName = false; 
+      fetchColorName(document.getElementById('hexInput').value);
+    });
+
+    colorNameInput.addEventListener('input', (e) => {
+      const val = e.target.value;
+      const parsedHex = nameToHex(val);
+      if (parsedHex) {
+        setHexColor(parsedHex, false);
+        if (colorMatchTag) {
+          colorMatchTag.innerText = "Live Match";
+          colorMatchTag.style.color = "#10b981";
+        }
+      } else {
+        if (colorMatchTag) {
+          colorMatchTag.innerText = "Searching...";
+          colorMatchTag.style.color = "#f59e0b";
+        }
+      }
+    });
+
+    document.getElementById('hexInput').addEventListener('input', (e) => setHexColor(e.target.value, false));
+    document.getElementById('rgbInput').addEventListener('input', (e) => {
+      const parts = e.target.value.split(',').map(x => parseInt(x.trim()));
+      if(parts.length === 3 && !parts.some(isNaN)) {
+        setHexColor(rgbToHex(parts[0], parts[1], parts[2]), false);
+      }
+    });
+
+    function updateUI() {
+      const [r, g, b] = hsvToRgb(state.h, state.s, state.v);
+      const hex = rgbToHex(r, g, b);
+      const [hslH, hslS, hslL] = rgbToHsl(r, g, b);
+      const [c, m, y, k] = rgbToCmyk(r, g, b);
+      const [okL, okC, okH] = rgbToOklch(r, g, b);
+
+      if (document.activeElement !== document.getElementById('hexInput')) {
+        document.getElementById('hexInput').value = hex;
+      }
+      if (document.activeElement !== document.getElementById('rgbInput')) {
+        document.getElementById('rgbInput').value = `${r}, ${g}, ${b}`;
+      }
+      document.getElementById('hslInput').value = `${hslH}°, ${hslS}%, ${hslL}%`;
+      document.getElementById('cmykInput').value = `${c}%, ${m}%, ${y}%, ${k}%`;
+      document.getElementById('hsvInput').value = `${Math.round(state.h)}°, ${Math.round(state.s*100)}%, ${Math.round(state.v*100)}%`;
+      document.getElementById('oklchInput').value = `${okL} ${okC} ${okH}°`;
+
+      document.getElementById('hueVal').innerText = `${Math.round(state.h)}°`;
+      document.getElementById('alphaVal').innerText = `${Math.round(state.a * 100)}%`;
+
+      fetchColorName(hex);
+
+      const rgbaStr = `rgba(${r}, ${g}, ${b}, ${state.a})`;
+      state.theme[state.activeTarget] = rgbaStr;
+      
+      state.gradColor1 = hex;
+      document.getElementById('gradColor1').value = hex;
+      updateGradientUI();
+
+      applyMockupTheme();
+      renderShades(hslH, hslS);
+      renderHarmony(hslH, hslS, hslL);
+      updateWCAG(r, g, b);
+      updateExportCode();
+    }
+
+    function updateGradientUI() {
+      let gradCSS = '';
+      if(state.gradType === 'linear') {
+        gradCSS = `linear-gradient(${state.gradAngle}deg, ${state.gradColor1}, ${state.gradColor2})`;
+      } else {
+        gradCSS = `radial-gradient(circle, ${state.gradColor1}, ${state.gradColor2})`;
+      }
+
+      document.getElementById('gradientPreview').style.background = gradCSS;
+      document.getElementById('gradientCodeOutput').value = `background: ${gradCSS};`;
+    }
+
+    document.getElementById('btnLinearGrad').onclick = () => {
+      document.getElementById('btnLinearGrad').classList.add('active');
+      document.getElementById('btnRadialGrad').classList.remove('active');
+      document.getElementById('angleControlRow').style.display = 'flex';
+      state.gradType = 'linear';
+      updateGradientUI();
+    };
+
+    document.getElementById('btnRadialGrad').onclick = () => {
+      document.getElementById('btnRadialGrad').classList.add('active');
+      document.getElementById('btnLinearGrad').classList.remove('active');
+      document.getElementById('angleControlRow').style.display = 'none';
+      state.gradType = 'radial';
+      updateGradientUI();
+    };
+
+    document.getElementById('gradAngleSlider').oninput = (e) => {
+      state.gradAngle = e.target.value;
+      document.getElementById('gradAngleVal').innerText = `${state.gradAngle}°`;
+      updateGradientUI();
+    };
+
+    document.getElementById('gradColor1').oninput = (e) => {
+      state.gradColor1 = e.target.value;
+      updateGradientUI();
+    };
+
+    document.getElementById('gradColor2').oninput = (e) => {
+      state.gradColor2 = e.target.value;
+      updateGradientUI();
+    };
+
+    document.getElementById('copyGradientBtn').onclick = () => {
+      const code = document.getElementById('gradientCodeOutput').value;
+      navigator.clipboard.writeText(code);
+      alert('Copied Gradient CSS to Clipboard!');
+    };
+
+    function applyMockupTheme() {
+      const card = document.getElementById('mockupCard');
+      const title = document.getElementById('mockTitle');
+      const btnPrimary = document.getElementById('mockBtnPrimary');
+
+      card.style.backgroundColor = state.theme.bg;
+      card.style.borderColor = state.theme.border;
+      title.style.color = state.theme.text;
+      btnPrimary.style.backgroundColor = state.theme.primary;
+    }
+
+    function renderShades(h, s) {
+      const container = document.getElementById('shadesContainer');
+      container.innerHTML = '';
+      for(let l = 10; l <= 90; l += 8) {
+        const shadeHex = hslToHex(h, s, l);
+        const box = document.createElement('div');
+        box.className = 'shade-box';
+        box.style.backgroundColor = shadeHex;
+        box.title = shadeHex;
+        box.onclick = () => setHexColor(shadeHex);
+        container.appendChild(box);
+      }
+    }
+
+    function renderHarmony(h, s, l) {
+      const grid = document.getElementById('harmonyGrid');
+      grid.innerHTML = '';
+      let hues = [];
+
+      switch(state.activeHarmony) {
+        case 'analogous': hues = [h, (h+30)%360, (h+60)%360, (h-30+360)%360, (h-60+360)%360]; break;
+        case 'complementary': hues = [h, (h+180)%360, (h+30)%360, (h+210)%360, (h+150)%360]; break;
+        case 'triadic': hues = [h, (h+120)%360, (h+240)%360, (h+60)%360, (h+180)%360]; break;
+        case 'tetradic': hues = [h, (h+90)%360, (h+180)%360, (h+270)%360, (h+45)%360]; break;
+        case 'monochromatic':
+          for(let i=0; i<5; i++) {
+            const box = document.createElement('div');
+            const hexVal = hslToHex(h, s, 20 + (i*15));
+            box.className = 'palette-box';
+            box.style.backgroundColor = hexVal;
+            box.innerText = hexVal;
+            box.onclick = () => setHexColor(hexVal);
+            grid.appendChild(box);
+          }
+          return;
+      }
+
+      hues.forEach(hueVal => {
+        const hexVal = hslToHex(hueVal, s, l);
+        const box = document.createElement('div');
+        box.className = 'palette-box';
+        box.style.backgroundColor = hexVal;
+        box.innerText = hexVal;
+        box.onclick = () => setHexColor(hexVal);
+        grid.appendChild(box);
+      });
+    }
+
+    function hslToHex(h, s, l) {
+      l /= 100;
+      const a = s * Math.min(l, 1 - l) / 100;
+      const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+      };
+      return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+    }
+
+    function updateWCAG(r, g, b) {
+      const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+      const ratio = luminance > 0.5 ? (luminance + 0.05) / 0.05 : 1.05 / (luminance + 0.05);
+      
+      document.getElementById('contrastRatioVal').innerText = `${ratio.toFixed(2)}:1`;
+      
+      const aaNormal = document.getElementById('wcagAANormal');
+      const aaLarge = document.getElementById('wcagAALarge');
+      const aaa = document.getElementById('wcagAAA');
+
+      toggleWCAGBadge(aaNormal, ratio >= 4.5);
+      toggleWCAGBadge(aaLarge, ratio >= 3.0);
+      toggleWCAGBadge(aaa, ratio >= 7.0);
+    }
+
+    function toggleWCAGBadge(el, isPassed) {
+      el.className = `wcag-badge ${isPassed ? 'pass' : 'fail'}`;
+      el.innerText = `${el.innerText.split(':')[0]}: ${isPassed ? 'PASS' : 'FAIL'}`;
+    }
+
+    function updateExportCode() {
+      const hex = document.getElementById('hexInput').value;
+      const area = document.getElementById('exportCodeArea');
+      
+      switch(state.activeExport) {
+        case 'css':
+          area.value = `:root {\n  --color-primary: ${hex};\n  --color-bg: ${state.theme.bg};\n  --color-text: ${state.theme.text};\n  --color-border: ${state.theme.border};\n}`;
+          break;
+        case 'tailwind':
+          area.value = `@theme {\n  --color-primary: ${hex};\n  --color-surface: ${state.theme.bg};\n  --color-content: ${state.theme.text};\n}`;
+          break;
+        case 'scss':
+          area.value = `$primary: ${hex};\n$bg: ${state.theme.bg};\n$text: ${state.theme.text};\n$border: ${state.theme.border};`;
+          break;
+        case 'tokens':
+          area.value = JSON.stringify({
+            color: {
+              primary: { value: hex },
+              background: { value: state.theme.bg },
+              text: { value: state.theme.text }
+            }
+          }, null, 2);
+          break;
+        case 'android':
+          area.value = `<resources>\n  <color name="primary">${hex}</color>\n  <color name="background">${state.theme.bg}</color>\n</resources>`;
+          break;
+        case 'swift':
+          area.value = `import SwiftUI\n\nextension Color {\n    static let primaryColor = Color(hex: "${hex}")\n}`;
+          break;
+      }
+    }
+
+    let isDragging = false;
+    function handlePointer(e) {
+      const rect = canvasBox.getBoundingClientRect();
+      let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+      let x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      let y = Math.max(0, Math.min(clientY - rect.top, rect.height));
+
+      cursor.style.left = `${x}px`;
+      cursor.style.top = `${y}px`;
+
+      state.s = x / rect.width;
+      state.v = 1 - (y / rect.height);
+      updateUI();
+    }
+
+    canvasBox.addEventListener('mousedown', (e) => { isDragging = true; handlePointer(e); });
+    window.addEventListener('mousemove', (e) => { if (isDragging) handlePointer(e); });
+    window.addEventListener('mouseup', () => { if(isDragging) { isDragging = false; pushHistory(); } });
+
+    canvasBox.addEventListener('touchstart', (e) => { isDragging = true; handlePointer(e); }, {passive: true});
+    window.addEventListener('touchmove', (e) => { if (isDragging) handlePointer(e); }, {passive: true});
+    window.addEventListener('touchend', () => { if(isDragging) { isDragging = false; pushHistory(); } });
+
+    document.getElementById('hueSlider').addEventListener('input', (e) => {
+      state.h = parseFloat(e.target.value);
+      renderCanvas();
+      updateUI();
+    });
+
+    document.getElementById('alphaSlider').addEventListener('input', (e) => {
+      state.a = e.target.value / 100;
+      updateUI();
+    });
+
+    document.getElementById('tempSlider').addEventListener('input', (e) => {
+      state.temp = parseInt(e.target.value);
+      document.getElementById('tempVal').innerText = state.temp;
+      updateUI();
+    });
+
+    document.getElementById('tintSlider').addEventListener('input', (e) => {
+      state.tint = parseInt(e.target.value);
+      document.getElementById('tintVal').innerText = state.tint;
+      updateUI();
+    });
+
+    // EyeDropper API
+    document.getElementById('eyedropperBtn').onclick = async () => {
+      if ('EyeDropper' in window) {
+        try {
+          const eyeDropper = new EyeDropper();
+          const result = await eyeDropper.open();
+          setHexColor(result.sRGBHex);
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        alert('EyeDropper API is not supported in this browser version.');
+      }
+    };
+
+    // Target Switcher
+    document.querySelectorAll('.target-pills .pill').forEach(btn => {
+      btn.onclick = (e) => {
+        document.querySelectorAll('.target-pills .pill').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        state.activeTarget = e.target.dataset.target;
+      };
+    });
+
+    // Harmony Switcher
+    document.querySelectorAll('#harmonyTabs .tab-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        document.querySelectorAll('#harmonyTabs .tab-btn').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        state.activeHarmony = e.target.dataset.type;
+        updateUI();
+      };
+    });
+
+    // Code Export Switcher
+    document.querySelectorAll('#exportTabs .tab-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        document.querySelectorAll('#exportTabs .tab-btn').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        state.activeExport = e.target.dataset.format;
+        updateExportCode();
+      };
+    });
+
+    // Speech Synthesizer
+    document.getElementById('speechBtn').onclick = () => {
+      const colorText = document.getElementById('colorNameInput').value;
+      const msg = new SpeechSynthesisUtterance(`Selected color is ${colorText}`);
+      window.speechSynthesis.speak(msg);
+    };
+
+    // Vision Simulator
+    document.getElementById('visionSimulatorSelect').onchange = (e) => {
+      const card = document.getElementById('mockupCard');
+      card.className = `mockup-card sim-${e.target.value}`;
+    };
+
+
+    let globalExtractedData = []; // Global store for search
+
+    document.getElementById('imageUploadInput').addEventListener('change', handleImageProcessing);
+    document.getElementById('cameraCaptureInput').addEventListener('change', handleImageProcessing);
+
+    // Modal open/close controls
+    document.getElementById('openSearchModalBtn').addEventListener('click', function() {
+      document.getElementById('colorSearchModal').style.display = 'flex';
+      document.getElementById('colorSearchInput').value = '';
+      renderModalSearchResults(globalExtractedData, '');
+      document.getElementById('colorSearchInput').focus();
+    });
+
+    document.getElementById('closeSearchModalBtn').addEventListener('click', function() {
+      document.getElementById('colorSearchModal').style.display = 'none';
+    });
+
+    // Close modal when clicking outside box
+    document.getElementById('colorSearchModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.style.display = 'none';
+      }
+    });
+
+    // Search input inside modal
+    document.getElementById('colorSearchInput').addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      renderModalSearchResults(globalExtractedData, query);
+    });
+
+    // ==========================================
+    // GEMINI API INTEGRATION (With Auto-Retry & v3.8)
+    // ==========================================
+    document.getElementById('askGeminiBtn').addEventListener('click', async function() {
+      const queryInput = document.getElementById('colorSearchInput').value;
+      const resultsDiv = document.getElementById('modalSearchResults');
+      const askBtn = document.getElementById('askGeminiBtn');
+      
+      if (!queryInput.trim()) {
+        resultsDiv.innerHTML = '<span style="color: #ef4444;">कृपया कुछ टाइप करें।</span>';
+        return;
+      }
+
+      // बटन को डिसएबल करें ताकि बार-बार क्लिक न हो
+      askBtn.disabled = true;
+      resultsDiv.innerHTML = '🤖 Gemini AI सोच रहा है (यदि सर्वर व्यस्त है, तो थोड़ा इंतज़ार करें)...';
+
+      const apiKey = ""; 
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+
+      const colorSummary = globalExtractedData.length > 0 
+        ? globalExtractedData.map(c => c.hex).join(', ') 
+        : 'कोई रंग स्कैन नहीं किया गया है';
+        
+      const prompt = `इस फोटो में निम्नलिखित मुख्य रंग मिले हैं: [${colorSummary}]। उपयोगकर्ता का प्रश्न है: "${queryInput}"। इसका सटीक और मददगार उत्तर हिंदी में दें।`;
+
+      const requestBody = {
+        contents: [{ parts: [{ text: prompt }] }]
+      };
+
+      let success = false;
+      let attempts = 0;
+      let maxAttempts = 6; // अधिकतम 6 बार कोशिश करेगा
+      let aiReply = "";
+
+      while (!success && attempts < maxAttempts) {
+        attempts++;
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+          });
+
+          const data = await response.json();
+          
+          if (data.error) {
+            // अगर हाई डिमांड या ओवरलोड एरर है, तो दोबारा कोशिश करें
+            if (attempts < maxAttempts) {
+              resultsDiv.innerHTML = `⚠️ सर्वर व्यस्त है (कोशिश ${attempts}/${maxAttempts})... दोबारा प्रयास कर रहे हैं।`;
+              await new Promise(resolve => setTimeout(resolve, 20000)); // 20 सेकंड रुकें
+              continue;
+            } else {
+              resultsDiv.innerHTML = `<span style="color: #ef4444;">API त्रुटि: ${data.error.message}</span>`;
+              break;
+            }
+          }
+
+          if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+            aiReply = data.candidates[0].content.parts[0].text;
+            resultsDiv.innerHTML = `<div style="line-height: 1.6; color: #f3f4f6;">${aiReply}</div>`;
+            success = true;
+          } else {
+            resultsDiv.innerHTML = '⚠️ Gemini से कोई उत्तर नहीं मिला।';
+            break;
+          }
+        } catch (error) {
+          console.error(`Attempt ${attempts} Error:`, error);
+          if (attempts < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          } else {
+            resultsDiv.innerHTML = '❌ कनेक्शन त्रुटि (Network Error)। कृपया इंटरनेट कनेक्शन जाँचें।';
+          }
+        }
+      }
+
+      // बटन को दोबारा चालू करें
+      askBtn.disabled = false;
+    });
+
+    // Helper function to convert RGB to Hex
+    function rgbToHex(r, g, b) {
+      return "#" + [r, g, b].map(x => {
+        const hex = x.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      }).join('');
+    }
+
+    function getColorDescription(r, g, b) {
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      const delta = max - min;
+      
+      if (max < 40) return "गहरा काला / डार्क शेड";
+      if (min > 215) return "चमकीला सफेद / लाइट शेड";
+      if (delta < 15) {
+        if (max > 160) return "हल्का ग्रे / स्लेटी";
+        if (max > 80) return "मध्यम ग्रे / स्लेटी";
+        return "गहरा ग्रे / स्लेटी";
+      }
+
+      if (r > g && r > b) {
+        if (g > 120 && b < 80) return "नारंगी / केसरिया शेड";
+        if (g < 60 && b < 60) return "गहरा लाल / मैरून शेड";
+        return "लाल रंग का शेड";
+      }
+      if (g > r && g > b) {
+        if (r > 100) return "पीलापन लिए हरा / हल्का हरा";
+        return "हरा शेड";
+      }
+      if (b > r && b > g) {
+        if (r > 120 && b > 120) return "हल्का नीला / आसमानी शेड";
+        return "नीला शेड";
+      }
+      if (r > 150 && g > 100 && b < 50) return "पीला शेड";
+      if (r > 120 && b > 120 && g < 80) return "बैंगनी / पर्पल शेड";
+      
+      return "मिक्स रंग टोन";
+    }
+
+    function handleImageProcessing(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const pal = document.getElementById('extractedPalette');
+      const detailsBox = document.getElementById('colorRegionsDetail');
+      const searchBtnContainer = document.getElementById('searchTriggerContainer');
+      
+      pal.innerHTML = '<span class="placeholder-text" style="font-size: 0.82rem;">⏳ इमेज स्कैन हो रही है, सभी वास्तविक रंग पहचाने जा रहे हैं...</span>';
+      detailsBox.innerHTML = '';
+      searchBtnContainer.style.display = 'none'; 
+      globalExtractedData = [];
+
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+
+      img.onload = function() {
+        // [सुधार]: ग्रिड साइज को 16x16 से बढ़ाकर 64x32 किया गया है ताकि 500+ या अधिक सटीक रंग आ सकें
+        const gridCols = 36;
+        const gridRows = 18;
+        const offscreenCanvas = document.createElement('canvas');
+        const offscreenCtx = offscreenCanvas.getContext('2d');
+        
+        offscreenCanvas.width = gridCols;
+        offscreenCanvas.height = gridRows;
+        offscreenCtx.drawImage(img, 0, 0, gridCols, gridRows);
+
+        const imgData = offscreenCtx.getImageData(0, 0, gridCols, gridRows).data;
+        const colorMapRegions = {};
+
+        for (let r = 0; r < gridRows; r++) {
+          for (let c = 0; c < gridCols; c++) {
+            const index = (r * gridCols + c) * 4;
+            let red = imgData[index];
+            let green = imgData[index + 1];
+            let blue = imgData[index + 2];
+            const alpha = imgData[index + 3];
+
+            if (alpha < 128) continue;
+
+            // [सुधार]: कैमरा और डिवाइस फोटो के रियल कलर मैचिंग के लिए क्वांटाइजेशन हटाकर सीधे वास्तविक पिक्सेल कलर लिए गए हैं
+            const hex = rgbToHex(red, green, blue);
+
+            let colorName = getColorDescription(red, green, blue);
+            let vPos = r < gridRows / 3 ? "ऊपरी" : r > (gridRows * 2) / 3 ? "निचले" : "मध्य";
+            let hPos = c < gridCols / 3 ? "बाईं" : c > (gridCols * 2) / 3 ? "दाईं" : "केंद्रीय";
+            let specificDetail = `${vPos}-${hPos} हिस्से का रंग`;
+
+            if (!colorMapRegions[hex]) {
+              colorMapRegions[hex] = { count: 0, descriptions: new Set() };
+            }
+            colorMapRegions[hex].count++;
+            colorMapRegions[hex].descriptions.add(`${colorName} (${specificDetail})`);
+          }
+        }
+
+        globalExtractedData = Object.keys(colorMapRegions)
+          .map(hex => ({
+            hex: hex,
+            count: colorMapRegions[hex].count,
+            descriptions: Array.from(colorMapRegions[hex].descriptions)
+          }))
+          .sort((a, b) => b.count - a.count);
+
+        renderColorDetails(globalExtractedData);
+        URL.revokeObjectURL(url);
+      };
+
+      img.onerror = function() {
+        pal.innerHTML = '<span class="placeholder-text" style="font-size: 0.82rem;">❌ इमेज प्रोसेस करने में विफल।</span>';
+      };
+
+      img.src = url;
+    }
+
+
+    function renderColorDetails(dataArray) {
+      const pal = document.getElementById('extractedPalette');
+      const detailsBox = document.getElementById('colorRegionsDetail');
+      const searchBtnContainer = document.getElementById('searchTriggerContainer');
+      
+      pal.innerHTML = '';
+      detailsBox.innerHTML = '<strong>✨ मुख्य पहचाने गए रंग (प्रमुख पैलेट):</strong><br>';
+
+      if (dataArray.length === 0) {
+        pal.innerHTML = '<span class="placeholder-text" style="font-size: 0.82rem;">कोई रंग नहीं मिला।</span>';
+        detailsBox.innerHTML = '';
+        searchBtnContainer.style.display = 'none';
+        return;
+      }
+
+      // वर्टिकल लिस्ट कंटेनर सेट करें जो Color Harmonies जैसा दिखे और स्क्रॉल हो सके
+      pal.style.display = 'grid';
+      pal.style.gridTemplateColumns = 'repeat(3, 1fr)'; // 3 कॉलम / 3 row जैसा लेआउट
+      pal.style.gap = '8px';
+      pal.style.maxHeight = '220px';
+      pal.style.overflowY = 'auto';
+      pal.style.width = '100%';
+      pal.style.paddingRight = '4px';
+
+      dataArray.forEach(item => {
+        const box = document.createElement('div');
+        box.className = 'extracted-harmony-box';
+        
+        // Color Harmonies बॉक्स के जैसी स्टाइल (पूरा रंग भरा हुआ, नीचे लेफ्ट में कोड)
+        box.style.backgroundColor = item.hex;
+        box.style.height = '50px'; // Color Harmonies बॉक्स जितनी ऊंचाई
+        box.style.borderRadius = '8px';
+        box.style.padding = '6px 8px';
+        box.style.display = 'flex';
+        box.style.alignItems = 'flex-end'; // बॉटम में टेक्स्ट दिखाने के लिए
+        box.style.justifyContent = 'flex-start';
+        box.style.cursor = 'pointer';
+        box.style.border = '1px solid rgba(255,255,255,0.2)';
+        box.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,0.15)';
+        box.style.transition = 'transform 0.15s ease, border-color 0.15s ease';
+        
+        box.title = `लागू करने के लिए क्लिक करें: ${item.hex}`;
+        
+        // हवर इफ़ेक्ट
+        box.onmouseover = () => {
+          box.style.transform = 'scale(1.02)';
+          box.style.borderColor = '#fff';
+        };
+        box.onmouseout = () => {
+          box.style.transform = 'scale(1)';
+          box.style.borderColor = 'rgba(255,255,255,0.2)';
+        };
+
+        // क्लिक करने पर रंग स्टूडियो में एप्लाई हो जाए
+        box.onclick = () => {
+          if (typeof setHexColor === 'function') setHexColor(item.hex);
+        };
+
+        // बॉटम-लेफ्ट साइड में रंग का कोड (Color Harmonies जैसा टेक्स्ट स्टाइल)
+        const codeSpan = document.createElement('span');
+        codeSpan.innerText = item.hex;
+        codeSpan.style.fontSize = '0.7rem';
+        codeSpan.style.fontWeight = '700';
+        codeSpan.style.color = '#fff';
+        codeSpan.style.textShadow = '0 1px 2px rgba(0,0,0,0.9)'; // ताकि हल्के रंग पर भी कोड साफ दिखे
+
+        box.appendChild(codeSpan);
+        pal.appendChild(box);
+      });
+
+      detailsBox.innerHTML = `<em style="color: var(--text-main, #fff);">कुल ${dataArray.length} रंग मिले हैं। नीचे स्क्रॉल करके सभी देख सकते हैं।</em>`;
+      searchBtnContainer.style.display = 'block';
+    }
+
+
+    function renderModalSearchResults(dataArray, searchQuery) {
+      const resultsContainer = document.getElementById('modalSearchResults');
+      resultsContainer.innerHTML = '';
+
+      const filtered = dataArray.filter(item => {
+        if (!searchQuery) return true;
+        const matchHex = item.hex.toLowerCase().includes(searchQuery);
+        const matchDesc = item.descriptions.some(desc => desc.toLowerCase().includes(searchQuery));
+        return matchHex || matchDesc;
+      });
+
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = '<em style="color:var(--text-sub, #9ca3af);">कोई मेल खाता रंग नहीं मिला।</em>';
+        return;
+      }
+
+      filtered.forEach(item => {
+        const descText = item.descriptions.join(' | ');
+        const rowDiv = document.createElement('div');
+        rowDiv.style.margin = '6px 0';
+        rowDiv.style.padding = '6px 4px';
+        rowDiv.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+        rowDiv.style.borderRadius = '4px';
+        rowDiv.style.cursor = 'pointer';
+        rowDiv.style.transition = 'background 0.2s';
+        
+        rowDiv.onmouseover = () => rowDiv.style.background = 'rgba(255,255,255,0.05)';
+        rowDiv.onmouseout = () => rowDiv.style.background = 'transparent';
+
+        // मोडल लिस्ट के किसी भी आइटम पर क्लिक करने पर रंग सेलेक्ट हो जाएगा और मोडल बंद हो जाएगा
+        rowDiv.onclick = () => {
+          if (typeof setHexColor === 'function') {
+            setHexColor(item.hex);
+          }
+          const modal = document.getElementById('colorSearchModal');
+          if (modal) modal.style.display = 'none';
+        };
+
+        rowDiv.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="display:inline-block;width:18px;height:18px;background:${item.hex};border-radius:4px;flex-shrink:0;border:1px solid rgba(255,255,255,0.3);"></span>
+            <strong style="color:var(--text-main, #fff); font-size: 0.85rem;">${item.hex}</strong>
+            <span style="color:var(--text-sub, #9ca3af); font-size: 0.75rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">➔ ${descText}</span>
+          </div>
+        `;
+        resultsContainer.appendChild(rowDiv);
+      });
+    }
+
+
+
+
+    function setHexColor(hex, addHistory = true) {
+      let c = hex.replace('#', '');
+      if (c.length === 3) c = c.split('').map(x => x + x).join('');
+      let num = parseInt(c, 16);
+      if(isNaN(num) || (c.length !== 6)) return;
+      let r = (num >> 16) & 255, g = (num >> 8) & 255, b = num & 255;
+
+      r /= 255; g /= 255; b /= 255;
+      let max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, v = max, d = max - min;
+      let s = max === 0 ? 0 : d / max;
+
+      if (max === min) h = 0;
+      else {
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+
+      state.h = h * 360; state.s = s; state.v = v;
+      document.getElementById('hueSlider').value = state.h;
+
+      const w = canvasBox.clientWidth, hPx = canvasBox.clientHeight;
+      cursor.style.left = `${state.s * w}px`;
+      cursor.style.top = `${(1 - state.v) * hPx}px`;
+
+      renderCanvas();
+      updateUI();
+      if (addHistory) pushHistory();
+    }
+
+    function renderHistory() {
+      const grid = document.getElementById('historyGrid');
+      grid.innerHTML = '';
+      state.history.slice(0, 12).forEach(hex => {
+        const sw = document.createElement('div');
+        sw.className = 'swatch';
+        sw.style.backgroundColor = hex;
+        sw.title = hex;
+        sw.onclick = () => setHexColor(hex);
+        grid.appendChild(sw);
+      });
+    }
+
+    function renderFavorites() {
+      const grid = document.getElementById('favGrid');
+      grid.innerHTML = '';
+      state.favorites.forEach(hex => {
+        const sw = document.createElement('div');
+        sw.className = 'swatch';
+        sw.style.backgroundColor = hex;
+        sw.title = hex;
+        sw.onclick = () => setHexColor(hex);
+        grid.appendChild(sw);
+      });
+    }
+
+    function pushHistory() {
+      const hex = document.getElementById('hexInput').value;
+      if(!state.history.includes(hex)) {
+        state.history.unshift(hex);
+        renderHistory();
+      }
+    }
+
+    document.getElementById('savePaletteBtn').onclick = () => {
+      const hex = document.getElementById('hexInput').value;
+      if(!state.favorites.includes(hex)) {
+        state.favorites.push(hex);
+        localStorage.setItem('studio_fav_colors_v5', JSON.stringify(state.favorites));
+        renderFavorites();
+      }
+    };
+
+    document.getElementById('clearHistoryBtn').onclick = () => {
+      state.history = [];
+      renderHistory();
+    };
+
+    document.getElementById('clearFavBtn').onclick = () => {
+      state.favorites = [];
+      localStorage.removeItem('studio_fav_colors_v5');
+      renderFavorites();
+    };
+
+    document.getElementById('applyBtn').onclick = () => {
+      document.body.style.backgroundColor = document.getElementById('hexInput').value;
+    };
+
+    document.getElementById('randomBtn').onclick = () => {
+      const randomHex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+      setHexColor(randomHex);
+    };
+
+    document.getElementById('copyCssBtn').onclick = () => {
+      navigator.clipboard.writeText(`color: ${document.getElementById('hexInput').value};`);
+      alert('Copied to clipboard!');
+    };
+
+    setTimeout(() => {
+      resizeCanvas();
+      setHexColor('#6366F1');
+      renderHistory();
+      renderFavorites();
+    }, 150);
+
+  })();
+</script>
+
+    
+    <!-- Firebase SDK (Compat Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script>
+    
+    
+  /* ==========================================================================
+   1. FIREBASE CONFIGURATION & INITIALIZATION
+   ========================================================================== */
+const firebaseConfig = {
+    apiKey: "AIzaSyCxlFxGay7dumaj7U7hvqX1bbWWsIfjraY",
+    authDomain: "circuitcraft-bc010.firebaseapp.com",
+    projectId: "circuitcraft-bc010",
+    storageBucket: "circuitcraft-bc010.firebasestorage.app",
+    messagingSenderId: "867431308444",
+    appId: "1:867431308444:web:921d480cfecfa053dbe159"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let currentUserEmail = "";
+const defaultAvatarSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234318ff'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>";
+
+/* ==========================================================================
+   2. DOM & STATE INITIALIZATION
+   ========================================================================== */
+const root = document.documentElement;
+let colorState = {
+    'card-bg-color': '#ffffff',
+    'page-bg-color': '#f4f7fe',
+    'border-color': '#4318ff',
+    'outline-color': '#000000'
+};
+let activeTargetKey = null;
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadSavedAvatar();
+    loadSettingsFromLocalStorage();
+    initStudioEngine();
+    setupCustomDropdowns();
+});
+
+/* ==========================================================================
+   3. SETTINGS & LOCALSTORAGE MANAGEMENT
+   ========================================================================== */
+function loadSavedAvatar() {
+    const savedImage = localStorage.getItem('savedProfileAvatar');
+    if (savedImage) {
+        const userAvatar = document.getElementById('user-avatar');
+        const drawerAvatar = document.getElementById('drawer-avatar');
+        if (userAvatar) userAvatar.src = savedImage;
+        if (drawerAvatar) drawerAvatar.src = savedImage;
+    }
+}
+
+function saveSettingsToLocalStorage() {
+    const settingsConfig = {
+        fontSize: getInputValue('font-size-input'),
+        fontFamily: getInputValue('font-style-select'),
+        fontVariant: getInputValue('font-variant-select'),
+        colorState: colorState,
+        bgImgUrl: getInputValue('bg-img-url'),
+        borderWidth: getInputValue('border-width'),
+        borderStyle: getInputValue('border-style'),
+        outlineWidth: getInputValue('outline-width'),
+        outlineStyle: getInputValue('outline-style'),
+        outlineOffset: getInputValue('outline-offset'),
+        cardWidth: getInputValue('card-width-input'),
+        cardHeight: getInputValue('card-height-input'),
+        cardPadding: getInputValue('card-padding-input'),
+        gridGap: getInputValue('grid-gap-input')
+    };
+    localStorage.setItem('ak_lab_dashboard_settings', JSON.stringify(settingsConfig));
+}
+
+function loadSettingsFromLocalStorage() {
+    const saved = localStorage.getItem('ak_lab_dashboard_settings');
+    if (!saved) return;
+    try {
+        const config = JSON.parse(saved);
+        setInputValue('font-size-input', config.fontSize);
+        setInputValue('font-style-select', config.fontFamily);
+        setInputValue('font-variant-select', config.fontVariant);
+        
+        if (config.colorState) {
+            colorState = config.colorState;
+            updateSwatchUI('card-bg-swatch', 'card-bg-text', colorState['card-bg-color']);
+            updateSwatchUI('page-bg-swatch', 'page-bg-text', colorState['page-bg-color']);
+            updateSwatchUI('border-swatch', 'border-text', colorState['border-color']);
+            updateSwatchUI('outline-swatch', 'outline-text', colorState['outline-color']);
+        }
+        
+        setInputValue('bg-img-url', config.bgImgUrl);
+        setInputValue('border-width', config.borderWidth);
+        setInputValue('border-style', config.borderStyle);
+        setInputValue('outline-width', config.outlineWidth);
+        setInputValue('outline-style', config.outlineStyle);
+        setInputValue('outline-offset', config.outlineOffset);
+        setInputValue('card-width-input', config.cardWidth);
+        setInputValue('card-height-input', config.cardHeight);
+        setInputValue('card-padding-input', config.cardPadding);
+        setInputValue('grid-gap-input', config.gridGap);
+
+        const localBgImg = localStorage.getItem('ak_lab_custom_bg_img');
+        if (localBgImg) {
+            document.body.style.backgroundImage = `url('${localBgImg}')`;
+        }
+
+        applyFontSettings(false);
+        applyBackgroundSettings(false);
+        applyBorderSettings(false);
+        applyStructureSettings(false);
+    } catch (e) {
+        console.error("Error loading settings:", e);
+    }
+}
+
+function resetAllSettings() {
+    colorState = {
+        'card-bg-color': '#ffffff',
+        'page-bg-color': '#f4f7fe',
+        'border-color': '#4318ff',
+        'outline-color': '#000000'
+    };
+
+    updateSwatchUI('card-bg-swatch', 'card-bg-text', '#ffffff');
+    updateSwatchUI('page-bg-swatch', 'page-bg-text', '#f4f7fe');
+    updateSwatchUI('border-swatch', 'border-text', '#4318ff');
+    updateSwatchUI('outline-swatch', 'outline-text', '#000000');
+
+    setInputValue('font-size-input', '1.1rem');
+    setInputValue('bg-img-url', '');
+    setInputValue('border-width', '2');
+    setInputValue('outline-width', '0');
+    setInputValue('outline-offset', '3');
+    setInputValue('card-width-input', '100%');
+    setInputValue('card-height-input', 'auto');
+    setInputValue('card-padding-input', '24');
+    setInputValue('grid-gap-input', '20');
+
+    resetCustomDropdown('font-style-select', '#customFontDropdown .custom-select-trigger', 'fontModal', 'custom-option', 'Segoe UI', 'Segoe UI', { fontFamily: "'Segoe UI', sans-serif" });
+    resetCustomDropdown('font-variant-select', '#customFontStyleDropdown .custom-select-trigger', 'styleModal', 'custom-style-option', 'normal', 'Normal', { fontStyle: 'normal' });
+    resetCustomDropdown('border-style', '#customBorderStyleDropdown .custom-select-trigger', 'borderStyleModal', 'custom-border-option', 'solid', '<span class="border-preview-line line-solid">Solid</span>');
+    resetCustomDropdown('outline-style', '#customOutlineStyleDropdown .custom-select-trigger', 'outlineStyleModal', 'custom-outline-option', 'solid', '<span class="border-preview-line line-solid">Solid</span>');
+
+    document.body.style.backgroundImage = 'none';
+    localStorage.removeItem('ak_lab_dashboard_settings');
+    localStorage.removeItem('ak_lab_custom_bg_img');
+
+    applyFontSettings(false);
+    applyBackgroundSettings(false);
+    applyBorderSettings(false);
+    applyStructureSettings(false);
+}
+
+/* ==========================================================================
+   4. DYNAMIC CSS STYLE APPLIERS
+   ========================================================================== */
+function applyFontSettings(shouldSave = true) {
+    root.style.setProperty('--dynamic-font-size', getInputValue('font-size-input') || '1rem');
+    root.style.setProperty('--dynamic-font-family', `'${getInputValue('font-style-select') || 'Segoe UI'}', sans-serif`);
+    root.style.setProperty('--dynamic-font-style', getInputValue('font-variant-select') || 'normal');
+    if (shouldSave) saveSettingsToLocalStorage();
+}
+
+function applyBackgroundSettings(shouldSave = true) {
+    root.style.setProperty('--dynamic-card-bg', colorState['card-bg-color']);
+    document.body.style.backgroundColor = colorState['page-bg-color'];
+
+    const bgUrl = getInputValue('bg-img-url');
+    if (bgUrl) {
+        document.body.style.backgroundImage = `url('${bgUrl}')`;
+    }
+    if (shouldSave) saveSettingsToLocalStorage();
+}
+
+function uploadBackgroundImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const base64Bg = reader.result;
+            document.body.style.backgroundImage = `url('${base64Bg}')`;
+            localStorage.setItem('ak_lab_custom_bg_img', base64Bg);
+            saveSettingsToLocalStorage();
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function applyBorderSettings(shouldSave = true) {
+    root.style.setProperty('--dynamic-border-color', colorState['border-color']);
+    root.style.setProperty('--dynamic-border-width', (getInputValue('border-width') || '0') + 'px');
+    root.style.setProperty('--dynamic-border-style', getInputValue('border-style') || 'solid');
+
+    root.style.setProperty('--dynamic-outline-color', colorState['outline-color']);
+    root.style.setProperty('--dynamic-outline-width', (getInputValue('outline-width') || '0') + 'px');
+    root.style.setProperty('--dynamic-outline-style', getInputValue('outline-style') || 'solid');
+    root.style.setProperty('--dynamic-outline-offset', (getInputValue('outline-offset') || '0') + 'px');
+    if (shouldSave) saveSettingsToLocalStorage();
+}
+
+function applyStructureSettings(shouldSave = true) {
+    root.style.setProperty('--dynamic-card-width', getInputValue('card-width-input') || '100%');
+    root.style.setProperty('--dynamic-card-height', getInputValue('card-height-input') || 'auto');
+
+    const paddingVal = getInputValue('card-padding-input');
+    const gapVal = getInputValue('grid-gap-input');
+
+    root.style.setProperty('--dynamic-card-padding', paddingVal ? paddingVal + 'px' : '24px');
+    root.style.setProperty('--dynamic-grid-gap', gapVal ? gapVal + 'px' : '20px');
+    if (shouldSave) saveSettingsToLocalStorage();
+}
+
+/* ==========================================================================
+   5. NAVIGATION, DRAWERS & ACCORDIONS
+   ========================================================================== */
+function navigateToModule(moduleKey) {
+    if (moduleKey === 'create-circuit') {
+        alert("Opening Circuit Canvas Workspace...");
+    } else if (moduleKey === 'my-projects') {
+        toggleProfileDrawer();
+        toggleProjectList();
+    } else {
+        alert("Opening Module: " + moduleKey);
+    }
+}
+
+function toggleProfileDrawer() {
+    const drawer = document.getElementById('profile-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const settingsPanel = document.getElementById('settings-panel');
+
+    if (settingsPanel) settingsPanel.classList.remove('open');
+    if (drawer) drawer.classList.toggle('open');
+
+    if (overlay) {
+        drawer && drawer.classList.contains('open') ? overlay.classList.add('active') : overlay.classList.remove('active');
+    }
+}
+
+function toggleSettingsPanel() {
+    const panel = document.getElementById('settings-panel');
+    const overlay = document.getElementById('drawer-overlay');
+    const profileDrawer = document.getElementById('profile-drawer');
+
+    if (profileDrawer) profileDrawer.classList.remove('open');
+    if (panel) panel.classList.toggle('open');
+
+    if (overlay) {
+        panel && panel.classList.contains('open') ? overlay.classList.add('active') : overlay.classList.remove('active');
+    }
+}
+
+function closeAllDrawers() {
+    const profileDrawer = document.getElementById('profile-drawer');
+    const settingsPanel = document.getElementById('settings-panel');
+    const overlay = document.getElementById('drawer-overlay');
+
+    if (profileDrawer) profileDrawer.classList.remove('open');
+    if (settingsPanel) settingsPanel.classList.remove('open');
+    if (overlay) overlay.classList.remove('active');
+}
+
+function toggleProjectList() {
+    const projectList = document.getElementById('project-list');
+    const arrow = document.getElementById('project-arrow');
+    if (projectList) {
+        projectList.classList.toggle('show');
+        if (arrow) {
+            arrow.className = projectList.classList.contains('show') ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down";
+        }
+    }
+}
+
+function openProject(projectName) {
+    alert('Opening Project: ' + projectName);
+    closeAllDrawers();
+}
+
+function toggleAccordion(element) {
+    const content = element.nextElementSibling;
+    if (content) {
+        content.style.display = (content.style.display === 'block') ? 'none' : 'block';
+    }
+}
+
+/* ==========================================================================
+   6. AUTHENTICATION & PROFILE LOGIC
+   ========================================================================== */
+function openAuthModal() { 
+    const modal = document.getElementById('auth-modal');
+    if (modal) modal.style.display = 'flex'; 
+}
+
+function closeAuthModal() { 
+    const modal = document.getElementById('auth-modal');
+    if (modal) modal.style.display = 'none'; 
+}
+
+function switchAuthTab(tab) {
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const tabs = document.querySelectorAll('.tab-btn');
+
+    if (tab === 'login') {
+        if (loginForm) loginForm.style.display = 'block';
+        if (signupForm) signupForm.style.display = 'none';
+        if (tabs[0]) tabs[0].classList.add('active');
+        if (tabs[1]) tabs[1].classList.remove('active');
+    } else {
+        if (loginForm) loginForm.style.display = 'none';
+        if (signupForm) signupForm.style.display = 'block';
+        if (tabs[1]) tabs[1].classList.add('active');
+        if (tabs[0]) tabs[0].classList.remove('active');
+    }
+}
+
+function loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    auth.signInWithPopup(provider)
+        .then((result) => {
+            const user = result.user;
+            alert("Google से लॉगिन सफल रहा!");
+            updateUIOnLogin(user.displayName || user.email, user.photoURL, user.email);
+        })
+        .catch((error) => alert("Google Login Error: " + error.message));
+}
+
+function simulateLogin(type) {
+    const isLogin = type ? type === 'login' : document.getElementById('login-form').style.display !== 'none';
+    const emailInput = isLogin ? getInputValue('login-email').trim() : getInputValue('signup-email').trim();
+    const passwordInput = isLogin ? getInputValue('login-password') : getInputValue('signup-password');
+
+    if (!emailInput || !passwordInput) {
+        alert("कृपया Email और Password दर्ज करें।");
+        return;
+    }
+
+    if (!isLogin) {
+        const name = getInputValue('signup-name');
+        auth.createUserWithEmailAndPassword(emailInput, passwordInput)
+            .then((userCredential) => {
+                if (name) userCredential.user.updateProfile({ displayName: name });
+                alert("Sign Up सफल रहा!");
+                updateUIOnLogin(name || emailInput, userCredential.user.photoURL, userCredential.user.email);
+            })
+            .catch((error) => alert("Sign Up Error: " + error.message));
+    } else {
+        auth.signInWithEmailAndPassword(emailInput, passwordInput)
+            .then((userCredential) => {
+                alert("Login सफल रहा!");
+                const user = userCredential.user;
+                updateUIOnLogin(user.displayName || user.email, user.photoURL, user.email);
+            })
+            .catch((error) => alert("Login Error: " + error.message));
+    }
+}
+
+function updateUIOnLogin(name, photoUrl, email) {
+    currentUserEmail = email || "";
+    setElementStyle('auth-btn', 'display', 'none');
+    setElementStyle('user-avatar', 'display', 'inline-block');
+    setElementStyle('logout-btn', 'display', 'flex');
+
+    const localSaved = localStorage.getItem('savedProfileAvatar');
+    const avatarImg = localSaved || photoUrl || defaultAvatarSVG;
+
+    const userAvatar = document.getElementById('user-avatar');
+    const drawerAvatar = document.getElementById('drawer-avatar');
+    if (userAvatar) userAvatar.src = avatarImg;
+    if (drawerAvatar) drawerAvatar.src = avatarImg;
+
+    if (name) setElementText('drawer-user-name', name);
+    if (email) setElementText('drawer-user-email', email);
+
+    closeAuthModal();
+}
+
+function updateUIOnLogout() {
+    currentUserEmail = "";
+    localStorage.removeItem('activeUserEmail');
+    localStorage.removeItem('savedProfileAvatar');
+
+    setElementStyle('auth-btn', 'display', 'block');
+    setElementStyle('user-avatar', 'display', 'inline-block');
+    setElementStyle('logout-btn', 'display', 'none');
+
+    const userAvatar = document.getElementById('user-avatar');
+    const drawerAvatar = document.getElementById('drawer-avatar');
+    if (userAvatar) userAvatar.src = defaultAvatarSVG;
+    if (drawerAvatar) drawerAvatar.src = defaultAvatarSVG;
+
+    setElementText('drawer-user-name', 'Guest User');
+    setElementText('drawer-user-email', 'Not Logged In');
+
+    setInputValue('login-email', '');
+    setInputValue('login-password', '');
+    setInputValue('signup-name', '');
+    setInputValue('signup-email', '');
+    setInputValue('signup-password', '');
+
+    closeAllDrawers();
+}
+
+function logoutUser() {
+    auth.signOut().then(() => {
+        updateUIOnLogout();
+        alert("आप सफलतापूर्वक लॉगआउट हो गए हैं!");
+    }).catch((error) => alert("Sign Out Error: " + error.message));
+}
+
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        updateUIOnLogin(user.displayName, user.photoURL, user.email);
+    } else {
+        loadSavedAvatar();
+    }
+});
+
+function triggerImageUpload() {
+    const input = document.getElementById('profile-image-input');
+    if (input) input.click();
+}
+
+function handleProfileImageUpload(event) {
+    const file = event.target.files[0];
+    const user = auth.currentUser;
+
+    if (file) {
+        if (file.size > 1024 * 1024) {
+            alert("कृपया 1MB से छोटी इमेज अपलोड करें।");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const base64Image = e.target.result;
+            const userAvatar = document.getElementById('user-avatar');
+            const drawerAvatar = document.getElementById('drawer-avatar');
+
+            if (userAvatar) userAvatar.src = base64Image;
+            if (drawerAvatar) drawerAvatar.src = base64Image;
+
+            localStorage.setItem('savedProfileAvatar', base64Image);
+
+            if (user) {
+                user.updateProfile({ photoURL: base64Image }).catch((err) => console.error("Profile update error:", err));
+            }
+            alert("प्रोफाइल फोटो सेव हो गई है!");
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+/* ==========================================================================
+   7. COLOR STUDIO MODAL & ENGINE INTEGRATION
+   ========================================================================== */
+function openStudioPicker(targetKey) {
+    activeTargetKey = targetKey;
+    const modal = document.getElementById('studioModalOverlay');
+    if (modal) modal.style.display = 'flex';
+
+    const currentHex = colorState[targetKey] || '#6366f1';
+
+    setTimeout(() => {
+        const canvas = document.getElementById('satValCanvas');
+        const canvasBox = document.getElementById('canvasBox');
+        if (canvas && canvasBox) {
+            canvas.width = canvasBox.clientWidth;
+            canvas.height = canvasBox.clientHeight;
+            if (typeof setStudioColorFromHex === 'function') {
+                setStudioColorFromHex(currentHex);
+            }
+        }
+    }, 50);
+
+    const textTargetMap = {
+        'card-bg-color': 'Card Background',
+        'page-bg-color': 'Main Page Background',
+        'border-color': 'Card Border',
+        'outline-color': 'Card Outline'
+    };
+    setElementText('activeTargetText', textTargetMap[targetKey] || 'Background');
+}
+
+function closeStudioPicker() {
+    const modal = document.getElementById('studioModalOverlay');
+    if (modal) modal.style.display = 'none';
+}
+
+function applySelectedStudioColor(hexColor) {
+    colorState[activeTargetKey] = hexColor;
+
+    if (activeTargetKey === 'card-bg-color') {
+        updateSwatchUI('card-bg-swatch', 'card-bg-text', hexColor);
+        applyBackgroundSettings();
+    } else if (activeTargetKey === 'page-bg-color') {
+        updateSwatchUI('page-bg-swatch', 'page-bg-text', hexColor);
+        applyBackgroundSettings();
+    } else if (activeTargetKey === 'border-color') {
+        updateSwatchUI('border-swatch', 'border-text', hexColor);
+        applyBorderSettings();
+    } else if (activeTargetKey === 'outline-color') {
+        updateSwatchUI('outline-swatch', 'outline-text', hexColor);
+        applyBorderSettings();
+    }
+
+    closeStudioPicker();
+}
+
+let setStudioColorFromHex = function(hex) {};
+
+function initStudioEngine() {
+    const canvas = document.getElementById('satValCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const canvasBox = document.getElementById('canvasBox');
+    const cursor = document.getElementById('pickerCursor');
+
+    const hueSlider = document.getElementById('hueSlider');
+    const alphaSlider = document.getElementById('alphaSlider');
+
+    const colorNameInput = document.getElementById('colorNameInput');
+    const hexInput = document.getElementById('hexInput');
+    const rgbInput = document.getElementById('rgbInput');
+    const hslInput = document.getElementById('hslInput');
+
+    const mockupCard = document.getElementById('mockupCard');
+    const mockBtn = document.getElementById('mockBtn');
+    const contrastText = document.getElementById('contrastText');
+    const contrastDot = document.getElementById('contrastDot');
+    const harmonyPalette = document.getElementById('harmonyPalette');
+    const historyGrid = document.getElementById('historyGrid');
+
+    let currentHue = 240, currentSat = 1, currentVal = 1, currentAlpha = 1;
+    let history = ['#6366F1', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
+
+    function resizeCanvas() {
+        if (canvasBox && canvas) {
+            canvas.width = canvasBox.clientWidth;
+            canvas.height = canvasBox.clientHeight;
+            drawSpectrum();
+        }
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    function drawSpectrum() {
+        if (!canvas.width) return;
+        ctx.fillStyle = `hsl(${currentHue}, 100%, 50%)`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        let whiteGrad = ctx.createLinearGradient(0, 0, canvas.width, 0);
+        whiteGrad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        whiteGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        ctx.fillStyle = whiteGrad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        let blackGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        blackGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        blackGrad.addColorStop(1, 'rgba(0, 0, 0, 1)');
+        ctx.fillStyle = blackGrad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function updateFromHSV() {
+        const rgb = hsvToRgb(currentHue, currentSat, currentVal);
+        const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+        const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+        if (hexInput) hexInput.value = hex.toUpperCase();
+        if (rgbInput) rgbInput.value = `${rgb.r}, ${rgb.g}, ${rgb.b}`;
+        if (hslInput) hslInput.value = `${Math.round(hsl.h)}, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%`;
+
+        root.style.setProperty('--active-color', hex);
+        if (colorNameInput) colorNameInput.value = getColorName(hex);
+
+        updateMockup(hex, rgb);
+        generateHarmony(currentHue);
+    }
+
+    function updateMockup(hex, rgb) {
+        if (!mockupCard) return;
+        mockupCard.style.background = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${currentAlpha})`;
+        if (mockBtn) mockBtn.style.background = hex;
+
+        const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+        mockupCard.style.color = luminance > 0.5 ? '#0f172a' : '#f8fafc';
+
+        const ratio = luminance > 0.5 ? (luminance + 0.05) / 0.05 : 1.05 / (luminance + 0.05);
+        const roundedRatio = ratio.toFixed(1);
+
+        if (contrastText && contrastDot) {
+            if (ratio >= 4.5) {
+                contrastText.innerText = `WCAG Pass: ${roundedRatio}:1`;
+                contrastDot.style.background = '#10b981';
+            } else {
+                contrastText.innerText = `Low Contrast: ${roundedRatio}:1`;
+                contrastDot.style.background = '#ef4444';
+            }
+        }
+    }
+
+    function generateHarmony(h) {
+        if (!harmonyPalette) return;
+        harmonyPalette.innerHTML = '';
+        const harmonies = [(h + 30) % 360, (h + 150) % 360, (h + 180) % 360, (h + 210) % 360, (h + 330) % 360];
+
+        harmonies.forEach(hueVal => {
+            const rgb = hsvToRgb(hueVal, 0.8, 0.9);
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+            const card = document.createElement('div');
+            card.className = 'palette-card';
+            card.style.background = hex;
+            card.style.color = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255 > 0.5 ? '#000' : '#fff';
+            card.innerText = hex.toUpperCase();
+            card.onclick = () => setStudioColorFromHex(hex);
+            harmonyPalette.appendChild(card);
+        });
+    }
+
+    function renderHistory() {
+        if (!historyGrid) return;
+        historyGrid.innerHTML = '';
+        history.forEach(hex => {
+            const swatch = document.createElement('div');
+            swatch.className = 'swatch';
+            swatch.style.background = hex;
+            swatch.onclick = () => setStudioColorFromHex(hex);
+            historyGrid.appendChild(swatch);
+        });
+    }
+
+    setStudioColorFromHex = function(hex) {
+        const rgb = hexToRgb(hex);
+        if (!rgb) return;
+        const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+        currentHue = hsv.h; currentSat = hsv.s; currentVal = hsv.v;
+
+        if (hueSlider) hueSlider.value = currentHue;
+
+        if (canvas && canvasBox && (canvas.width === 0 || canvas.height === 0)) {
+            canvas.width = canvasBox.clientWidth;
+            canvas.height = canvasBox.clientHeight;
+        }
+
+        drawSpectrum();
+
+        if (cursor && canvas) {
+            cursor.style.left = `${currentSat * canvas.width}px`;
+            cursor.style.top = `${(1 - currentVal) * canvas.height}px`;
+        }
+
+        updateFromHSV();
+    };
+
+    let isDragging = false;
+    function handleMove(e) {
+        if (!canvasBox || !cursor) return;
+        const rect = canvasBox.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        let x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+        let y = Math.max(0, Math.min(clientY - rect.top, rect.height));
+
+        cursor.style.left = `${x}px`;
+        cursor.style.top = `${y}px`;
+
+        currentSat = x / rect.width;
+        currentVal = 1 - (y / rect.height);
+        updateFromHSV();
+    }
+
+    if (canvasBox) {
+        canvasBox.addEventListener('pointerdown', (e) => { isDragging = true; handleMove(e); });
+    }
+    window.addEventListener('pointermove', (e) => { if (isDragging) handleMove(e); });
+    window.addEventListener('pointerup', () => { isDragging = false; });
+
+    if (hueSlider) {
+        hueSlider.addEventListener('input', (e) => {
+            currentHue = parseFloat(e.target.value);
+            drawSpectrum();
+            updateFromHSV();
+        });
+    }
+
+    if (alphaSlider) {
+        alphaSlider.addEventListener('input', (e) => {
+            currentAlpha = e.target.value / 100;
+            updateFromHSV();
+        });
+    }
+
+    const eyedropperBtn = document.getElementById('eyedropperBtn');
+    if (eyedropperBtn) {
+        eyedropperBtn.addEventListener('click', async () => {
+            if ('EyeDropper' in window) {
+                const eyeDropper = new EyeDropper();
+                try {
+                    const result = await eyeDropper.open();
+                    setStudioColorFromHex(result.sRGBHex);
+                } catch (e) {
+                    console.log('EyeDropper canceled');
+                }
+            } else {
+                alert('आपका ब्राउज़र EyeDropper API को सपोर्ट नहीं करता है।');
+            }
+        });
+    }
+
+    const applyBtn = document.getElementById('applyBtn');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+            const chosenHex = hexInput ? hexInput.value : '#000000';
+            if (!history.includes(chosenHex)) {
+                history.unshift(chosenHex);
+                if (history.length > 10) history.pop();
+                renderHistory();
+            }
+            applySelectedStudioColor(chosenHex);
+        });
+    }
+
+    const copyBtn = document.getElementById('copyBtn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            if (hexInput) {
+                navigator.clipboard.writeText(hexInput.value);
+                alert(`Copied Code: ${hexInput.value}`);
+            }
+        });
+    }
+
+    const randomBtn = document.getElementById('randomBtn');
+    if (randomBtn) {
+        randomBtn.addEventListener('click', () => {
+            const randomHex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            setStudioColorFromHex(randomHex);
+        });
+    }
+
+    if (colorNameInput) {
+        colorNameInput.addEventListener('change', (e) => {
+            const name = e.target.value.toLowerCase().trim();
+            const tempElem = document.createElement('div');
+            tempElem.style.color = name;
+            document.body.appendChild(tempElem);
+            const cs = window.getComputedStyle(tempElem).color;
+            document.body.removeChild(tempElem);
+
+            const rgbVals = cs.match(/\d+/g);
+            if (rgbVals) {
+                setStudioColorFromHex(rgbToHex(parseInt(rgbVals[0]), parseInt(rgbVals[1]), parseInt(rgbVals[2])));
+            }
+        });
+    }
+
+    /* Math Utilities */
+    function hsvToRgb(h, s, v) {
+        let r, g, b, i = Math.floor(h / 60), f = h / 60 - i;
+        let p = v * (1 - s), q = v * (1 - s * f), t = v * (1 - s * (1 - f));
+        switch (i % 6) {
+            case 0: r = v; g = t; b = p; break;
+            case 1: r = q; g = v; b = p; break;
+            case 2: r = p; g = v; b = t; break;
+            case 3: r = p; g = q; b = v; break;
+            case 4: r = t; g = p; b = v; break;
+            case 5: r = v; g = p; b = q; break;
+        }
+        return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
+    }
+
+    function rgbToHsv(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        let max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+        let h, s = max === 0 ? 0 : d / max, v = max;
+        if (max === min) h = 0;
+        else {
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+        return { h: h * 360, s, v };
+    }
+
+    function rgbToHex(r, g, b) { return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join(''); }
+    function hexToRgb(hex) {
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
+    }
+
+    function rgbToHsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        let max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, h = 0, s = 0;
+        if (max !== min) {
+            let d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+        return { h: h * 360, s, l };
+    }
+
+    function getColorName(hex) {
+        const names = {
+            '#6366F1': 'Indigo', '#10B981': 'Emerald', '#F59E0B': 'Amber',
+            '#EF4444': 'Red', '#8B5CF6': 'Purple', '#000000': 'Black',
+            '#FFFFFF': 'White', '#4318FF': 'Royal Blue', '#F4F7FE': 'Ice Light'
+        };
+        return names[hex.toUpperCase()] || 'Custom Color';
+    }
+
+    resizeCanvas();
+    renderHistory();
+}
+
+/* ==========================================================================
+   8. CUSTOM DROPDOWN CONTROL ENGINE
+   ========================================================================== */
+function setupCustomDropdowns() {
+    setupDropdown('customFontDropdown', 'fontModal', 'custom-option', 'font-style-select', (val) => applyFontSettings());
+    setupDropdown('customFontStyleDropdown', 'styleModal', 'custom-style-option', 'font-variant-select', (val) => applyFontSettings());
+    setupBorderDropdown('customBorderStyleDropdown', 'borderStyleModal', 'custom-border-option', 'border-style');
+    setupBorderDropdown('customOutlineStyleDropdown', 'outlineStyleModal', 'custom-outline-option', 'outline-style');
+}
+
+function setupDropdown(triggerContainerId, modalId, optionClass, hiddenInputId, onChangeCallback) {
+    const trigger = document.querySelector(`#${triggerContainerId} .custom-select-trigger`);
+    const modal = document.getElementById(modalId);
+    if (!trigger || !modal) return;
+
+    const modalContent = modal.querySelector('.custom-options-content');
+    const options = modal.querySelectorAll(`.${optionClass}`);
+    const hiddenInput = document.getElementById(hiddenInputId);
+
+    trigger.addEventListener('click', () => modal.classList.add('open'));
+
+    options.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const val = this.getAttribute('data-value');
+
+            const span = trigger.querySelector('span');
+            if (span) span.textContent = this.textContent.trim();
+
+            if (this.style.fontFamily) trigger.style.fontFamily = this.style.fontFamily;
+            if (this.style.fontStyle) trigger.style.fontStyle = this.style.fontStyle;
+
+            if (hiddenInput) hiddenInput.value = val;
+
+            options.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            modal.classList.remove('open');
+
+            if (typeof onChangeCallback === 'function') onChangeCallback(val);
+        });
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (modalContent && !modalContent.contains(e.target)) modal.classList.remove('open');
+    });
+}
+
+function setupBorderDropdown(triggerId, modalId, optionClass, hiddenInputId) {
+    const trigger = document.querySelector(`#${triggerId} .custom-select-trigger`);
+    const modal = document.getElementById(modalId);
+    if (!trigger || !modal) return;
+
+    const modalContent = modal.querySelector('.custom-options-content');
+    const options = modal.querySelectorAll(`.${optionClass}`);
+    const hiddenInput = document.getElementById(hiddenInputId);
+
+    trigger.addEventListener('click', () => modal.classList.add('open'));
+
+    options.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const val = this.getAttribute('data-value');
+            
+            const targetSpan = trigger.querySelector('span');
+            const sourceSpan = this.querySelector('span');
+            if (targetSpan && sourceSpan) targetSpan.innerHTML = sourceSpan.innerHTML;
+
+            if (hiddenInput) hiddenInput.value = val;
+
+            options.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            modal.classList.remove('open');
+
+            if (typeof applyBorderSettings === 'function') applyBorderSettings();
+        });
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (modalContent && !modalContent.contains(e.target)) modal.classList.remove('open');
+    });
+}
+
+function resetCustomDropdown(hiddenId, triggerSelector, modalId, optionClass, defaultValue, defaultHTML, defaultStyle = {}) {
+    const hiddenInput = document.getElementById(hiddenId);
+    const trigger = document.querySelector(triggerSelector);
+    const options = document.querySelectorAll(`#${modalId} .${optionClass}`);
+
+    if (hiddenInput) hiddenInput.value = defaultValue;
+    if (trigger) {
+        const span = trigger.querySelector('span');
+        if (span) span.innerHTML = defaultHTML;
+        Object.assign(trigger.style, defaultStyle);
+    }
+    options.forEach(opt => {
+        if (opt.getAttribute('data-value') === defaultValue) {
+            opt.classList.add('selected');
+        } else {
+            opt.classList.remove('selected');
+        }
+    });
+}
+
+/* ==========================================================================
+   9. UTILITY HELPERS
+   ========================================================================== */
+function getInputValue(id) {
+    const elem = document.getElementById(id);
+    return elem ? elem.value : '';
+}
+
+function setInputValue(id, val) {
+    const elem = document.getElementById(id);
+    if (elem && val !== undefined) elem.value = val;
+}
+
+function setElementText(id, text) {
+    const elem = document.getElementById(id);
+    if (elem) elem.innerText = text;
+}
+
+function setElementStyle(id, property, val) {
+    const elem = document.getElementById(id);
+    if (elem) elem.style[property] = val;
+}
+
+function updateSwatchUI(swatchId, textId, hexColor) {
+    const swatch = document.getElementById(swatchId);
+    const text = document.getElementById(textId);
+    if (swatch) swatch.style.background = hexColor;
+    if (text) text.innerText = hexColor;
+}
+
+    
+</script>
+
+</body>
+</html>
